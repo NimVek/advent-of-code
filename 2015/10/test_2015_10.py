@@ -13,4 +13,4 @@ import solution_2015_10 as solution
     ],
 )
 def test_look_and_say(sequence, result):
-    assert solution.look_and_say("1") == "11"
+    assert solution.look_and_say(sequence) == result
