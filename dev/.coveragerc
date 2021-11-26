@@ -1,0 +1,5 @@
+[run]
+omit =
+    tests/*
+    dev/*
+    **/test_*.py

@@ -1,0 +1,118 @@
+---
+name: Continuous Integration
+
+on  :
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  lint:
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        python: [3.9]
+        include:
+          - os: ubuntu-latest
+            CACHE_PIP: ~/.cache/pip
+            CACHE_PRE_COMMIT: ~/.cache/pre-commit
+
+    name: Lint
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Caching
+        uses: actions/cache@v2
+        with:
+          path: |
+            ${{ matrix.CACHE_PIP }}
+            ${{ matrix.CACHE_PRE_COMMIT }}
+          key: lint-${{ runner.os }}-${{ matrix.python }}-${{ hashFiles('**/.pre-commit-config.yaml')
+            }}
+          restore-keys: |
+            lint-${{ runner.os }}-${{ matrix.python }}-
+
+      - name: Set up Python ${{ matrix.python }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install poetry
+          poetry config virtualenvs.create false
+          poetry install
+
+      - name: Lint
+        run: |
+          poetry run pre-commit run --all-files
+
+
+  test:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python: [3.9]
+        include:
+          - os: ubuntu-latest
+            CACHE_PIP: ~/.cache/pip
+            CACHE_POETRY: ~/.cache/poetry
+          - os: windows-latest
+            CACHE_PIP: ~\AppData\Local\pip\Cache
+            CACHE_POETRY: ~\AppData\Local\poetry\Cache
+          - os: macos-latest
+            CACHE_PIP: ~/Library/Caches/pip
+            CACHE_POETRY: ~/Library/Caches/poetry
+
+    name: Test
+    runs-on: ${{ matrix.os }}
+    needs: lint
+    env:
+      OS: ${{ matrix.os }}
+      PYTHON: ${{ matrix.python }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Caching
+        uses: actions/cache@v2
+        with:
+          path: |
+            ${{ matrix.CACHE_PIP }}
+            ${{ matrix.CACHE_POETRY }}
+          key: test-${{ runner.os }}-${{ matrix.python }}-${{ hashFiles('**/pyproject.toml')
+            }}
+          restore-keys: |
+            test-${{ runner.os }}-${{ matrix.python }}-
+
+      - name: Set up Python ${{ matrix.python }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install poetry
+          poetry install
+
+      - name: Collect Environment
+        run: |
+          echo "PYTHON=$(python -c 'import platform; print(platform.python_version())')" >> $GITHUB_ENV
+          echo "OS=$(python dev/os_version.py)" >> $GITHUB_ENV
+
+      - name: Test
+        run: |
+          poetry run pytest -m "not slow" --verbose --numprocesses=auto --cov=. --cov-config=dev/.coveragerc --cov-report=xml
+
+      - name: Coverage
+        uses: codecov/codecov-action@v2.1.0
+        with:
+          env_vars: OS, PYTHON

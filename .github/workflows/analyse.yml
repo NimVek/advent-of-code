@@ -1,0 +1,37 @@
+---
+name: Code Scanning
+
+on  :
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+  schedule:
+    - cron: 24 8 * * 2
+
+jobs:
+  analyze:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        language: [python]
+
+    name: Analyze
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Initialize
+        uses: github/codeql-action/init@v1
+        with:
+          languages: ${{ matrix.language }}
+
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v1
+
+      - name: Analyze
+        uses: github/codeql-action/analyze@v1
