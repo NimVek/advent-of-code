@@ -1,4 +1,4 @@
-[![AoC 2015](https://img.shields.io/badge/2015-★_10-ff6600)](https://adventofcode.com/2015)
+[![AoC 2015](https://img.shields.io/badge/2015-★_12-ff7a00)](https://adventofcode.com/2015)
 [![AoC 2016](https://img.shields.io/badge/2016-★_0-ff0000)](https://adventofcode.com/2016)
 [![AoC 2017](https://img.shields.io/badge/2017-★_0-ff0000)](https://adventofcode.com/2017)
 [![AoC 2018](https://img.shields.io/badge/2018-★_0-ff0000)](https://adventofcode.com/2018)
