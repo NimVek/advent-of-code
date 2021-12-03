@@ -2,7 +2,7 @@
 [![AoC 2016](https://img.shields.io/badge/2016-★_2-ff1400)](https://adventofcode.com/2016)
 [![AoC 2017](https://img.shields.io/badge/2017-★_0-ff0000)](https://adventofcode.com/2017)
 [![AoC 2018](https://img.shields.io/badge/2018-★_0-ff0000)](https://adventofcode.com/2018)
-[![AoC 2019](https://img.shields.io/badge/2019-★_0-ff0000)](https://adventofcode.com/2019)
+[![AoC 2019](https://img.shields.io/badge/2019-★_2-ff1400)](https://adventofcode.com/2019)
 [![AoC 2020](https://img.shields.io/badge/2020-★_0-ff0000)](https://adventofcode.com/2020)
 [![AoC 2021](https://img.shields.io/badge/2021-★_6-ff3d00)](https://adventofcode.com/2021)
 # advent-of-code
