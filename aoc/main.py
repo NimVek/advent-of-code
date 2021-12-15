@@ -64,7 +64,7 @@ def main(args: Optional[List[str]] = None) -> int:
 
     parsed = parser.parse_args(args=args)
 
-    parsed.current = parsed.base / f"{parsed.year}" / f"{parsed.day:02d}"
+    parsed.current = parsed.base / f"y{parsed.year}" / f"d{parsed.day:02d}"
     parsed.api = aoc.API(parsed.cookie)
 
     set_loglevel(parsed)

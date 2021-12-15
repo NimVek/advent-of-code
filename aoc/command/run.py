@@ -1,6 +1,25 @@
+import collections.abc
 import importlib
+import itertools
 import pprint
 import sys
+
+
+def simplify(item):
+    if isinstance(item, collections.abc.Iterable) and not isinstance(item, str):
+        item = list(item)
+        if len(item) == 1:
+            return item[0]
+    return item
+
+
+def preparse(string):
+    result = [
+        simplify(v)
+        for k, v in itertools.groupby(string.splitlines(), lambda x: x.strip() != "")
+        if k
+    ]
+    return simplify(result)
 
 
 def cmd_run(args):
@@ -8,7 +27,8 @@ def cmd_run(args):
 
     with open(args.current / "input", "r") as f:
         input = f.read().strip()
-    solution = importlib.import_module(f"solution_{args.year}_{args.day:02d}")
+    input = preparse(input)
+    solution = importlib.import_module(f"solution")
 
     pprint.pprint(getattr(solution, args.part)(input))
 
