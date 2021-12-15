@@ -50,7 +50,7 @@ class API(object):
         html = self._request("GET", "events")
         if html:
             soup = bs4.BeautifulSoup(html, "html.parser")
-            p = re.compile("\[(?P<year>[0-9]+)\]\s*((?P<stars>[0-9]+)\*)?")
+            p = re.compile(r"\[(?P<year>\d+)\]\s+((?P<stars>\d+)\*)?")
             for event in soup.find_all("div", {"class": "eventlist-event"}):
                 m = p.search(event.text)
                 if m:
