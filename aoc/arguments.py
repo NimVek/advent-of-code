@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 def type_directory(string):
     result = pathlib.Path(string)
     if not result.is_dir():
-        raise argparse.ArgumentError("%r: no such directory" % string)
+        raise argparse.ArgumentError(f"{string:r}: no such directory")
     return result
 
 
@@ -58,9 +58,10 @@ def setup_parser(parser):
 
     cookie = None
     if repo:
-        with contextlib.suppress(FileNotFoundError, PermissionError, IsADirectoryError):
-            with open(repo / ".session") as f:
-                cookie = f.read().strip()
+        with contextlib.suppress(
+            FileNotFoundError, PermissionError, IsADirectoryError
+        ), open(repo / ".session") as f:
+            cookie = f.read().strip()
 
     parser.add_argument(
         "-c",

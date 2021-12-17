@@ -26,12 +26,12 @@ def cmd_run(args):
     sys.path.append(str(args.current))
 
     with open(args.current / "input") as f:
-        input = f.read().strip()
-    input = preparse(input)
-    solution = importlib.import_module(f"solution")
+        data = f.read().strip()
+    data = preparse(data)
+    solution = importlib.import_module("solution")
 
     part = 1 if args.part == "one" else 2
-    pprint.pprint(solution.Solution.solve(part, input))
+    pprint.pprint(solution.Solution.solve(part, data))
 
 
 def cmd_answer(args):

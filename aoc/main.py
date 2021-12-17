@@ -16,7 +16,7 @@ Also see (1) from http://click.pocoo.org/5/setuptools/#setuptools-integration
 import argparse
 import logging
 
-from typing import List, Optional
+from typing import Optional
 
 import aoc
 

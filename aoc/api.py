@@ -8,8 +8,6 @@ import requests
 
 logger = logging.getLogger(__name__)
 
-import pprint
-
 
 class API:
 
@@ -26,7 +24,7 @@ class API:
         if response.ok:
             return response.text
 
-    def input(self, year, day):
+    def data(self, year, day):
         return self._request("GET", f"{year}/day/{day}/input")
 
     def mission(self, year, day):
@@ -39,11 +37,10 @@ class API:
         return "\n\n".join(result)
 
     def answer(self, year, day, level, answer):
-        result = []
         html = self._request(
             "POST", f"{year}/day/{day}/answer", {"level": level, "answer": answer}
         )
-        pprint.pprint(html)
+        logger.warning(html)
 
     def stars(self):
         result = {}
