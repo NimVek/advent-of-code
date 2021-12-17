@@ -1,5 +1,12 @@
 import collections
 import functools
+import logging
+
+from aoc.lib.solution import SolutionBase
+
+
+__all__ = ["Solution"]
+logger = logging.getLogger(__name__)
 
 
 class Polymerization:
@@ -15,25 +22,26 @@ class Polymerization:
         return result
 
 
-def parse(data):
-    template, rules = data
-    rules = [rule.split(" -> ") for rule in rules]
-    rules = {a: z for (a, z) in rules}
-    return template, rules
+class Solution(SolutionBase):
+    @staticmethod
+    def prepare(data):
+        template, rules = data
+        rules = [rule.split(" -> ") for rule in rules]
+        rules = {a: z for (a, z) in rules}
+        return template, rules
 
+    @staticmethod
+    def generic(data, steps):
+        template, rules = data
+        pairs = collections.Counter(zip(template, template[1:]))
+        polymerization = Polymerization(rules)
+        for _ in range(steps):
+            pairs = polymerization.insertion(pairs)
+        elements = collections.defaultdict(int)
+        for (element, _), quantity in pairs.items():
+            elements[element] += quantity
+        elements[template[-1]] += 1
+        return max(elements.values()) - min(elements.values())
 
-def solution(data, steps):
-    template, rules = parse(data)
-    pairs = collections.Counter(zip(template, template[1:]))
-    polymerization = Polymerization(rules)
-    for _ in range(steps):
-        pairs = polymerization.insertion(pairs)
-    elements = collections.defaultdict(int)
-    for (element, _), quantity in pairs.items():
-        elements[element] += quantity
-    elements[template[-1]] += 1
-    return max(elements.values()) - min(elements.values())
-
-
-one = functools.partial(solution, steps=10)
-two = functools.partial(solution, steps=40)
+    part_01 = functools.partialmethod(generic, steps=10)
+    part_02 = functools.partialmethod(generic, steps=40)

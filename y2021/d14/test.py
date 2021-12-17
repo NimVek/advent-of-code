@@ -1,13 +1,13 @@
 import pytest
 
-from . import solution
+from .solution import Solution
 
 
 @pytest.mark.parametrize(
     ("part", "output"),
     [
-        ("one", 1588),
-        ("two", 2188189693529),
+        (1, 1588),
+        (2, 2188189693529),
     ],
 )
 def test(part, output):
@@ -31,4 +31,4 @@ def test(part, output):
         "CN -> C",
     ]
 
-    assert getattr(solution, part)((template, rules)) == output
+    assert Solution.solve(part, (template, rules)) == output
