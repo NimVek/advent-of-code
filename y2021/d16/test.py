@@ -1,6 +1,6 @@
 import pytest
 
-from . import solution
+from .solution import Solution
 
 
 @pytest.mark.parametrize(
@@ -12,8 +12,8 @@ from . import solution
         ("A0016C880162017C3686B18A3D4780", 31),
     ],
 )
-def test_one(data, answer):
-    assert solution.one(data) == answer
+def test_01(data, answer):
+    assert Solution.solve(1, data) == answer
 
 
 @pytest.mark.parametrize(
@@ -29,5 +29,5 @@ def test_one(data, answer):
         ("9C0141080250320F1802104A08", 1),
     ],
 )
-def test_two(data, answer):
-    assert solution.two(data) == answer
+def test_02(data, answer):
+    assert Solution.solve(2, data) == answer

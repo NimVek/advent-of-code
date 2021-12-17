@@ -4,7 +4,10 @@ import logging
 import math
 import operator
 
+from aoc.lib.solution import SolutionBase
 
+
+__all__ = ["Solution"]
 logger = logging.getLogger(__name__)
 
 
@@ -204,15 +207,15 @@ class BitBuffer:
         return self.read(1) == "1"
 
 
-def prepare(data):
-    return BitBuffer("".join(map("{:08b}".format, bytes.fromhex(data))))
+class Solution(SolutionBase):
+    @staticmethod
+    def prepare(data):
+        return BitBuffer("".join(map("{:08b}".format, bytes.fromhex(data))))
 
+    @staticmethod
+    def generic(data, attribute):
+        packet = Packet.decode(data)
+        return getattr(packet, attribute)
 
-def generic(data, attribute):
-    data = prepare(data)
-    packet = Packet.decode(data)
-    return getattr(packet, attribute)
-
-
-one = functools.partial(generic, attribute="version_sum")
-two = functools.partial(generic, attribute="value")
+    part_01 = functools.partialmethod(generic, attribute="version_sum")
+    part_02 = functools.partialmethod(generic, attribute="value")
