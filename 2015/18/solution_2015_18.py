@@ -3,9 +3,7 @@ import functools
 
 class Grid:
     def __init__(self, rows):
-        self.grid = [
-            bytearray((1 if bulb == "#" else 0 for bulb in row)) for row in rows
-        ]
+        self.grid = [bytearray(1 if bulb == "#" else 0 for bulb in row) for row in rows]
 
     def _get_lit_neighbors(self, row, col):
         neighbors = []
@@ -17,7 +15,7 @@ class Grid:
                     if -1 < j < len(self.grid[i])
                 )
         neighbors.remove((row, col))
-        return sum([self.grid[i][j] for i, j in neighbors])
+        return sum(self.grid[i][j] for i, j in neighbors)
 
     def step(self):
         rows = len(self.grid)

@@ -30,7 +30,7 @@ def set_loglevel(args):
     pass
 
 
-def main(args: Optional[List[str]] = None) -> int:
+def main(args: Optional[list[str]] = None) -> int:
     """Console script for aoc.
 
     Args:

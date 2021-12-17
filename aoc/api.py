@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 import pprint
 
 
-class API(object):
+class API:
 
     BASE_URL = "https://adventofcode.com"
 

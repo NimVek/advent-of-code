@@ -69,4 +69,4 @@ def two(string):
     for i in range(1, MAX_TIME + 1):
         for deer in race.leader(i):
             deer.leads += 1
-    return max([i.leads for i in race.stable])
+    return max(i.leads for i in race.stable)

@@ -30,6 +30,44 @@ repos:
       - id: markdownlint
         args: [--style, cirosantilli, --rules, '~first-header-h1,~first-line-h1,~no-trailing-punctuation']
 
+  - repo: https://github.com/pre-commit/pygrep-hooks
+    rev: v1.9.0
+    hooks:
+      - id: python-check-mock-methods
+      - id: python-use-type-annotations
+      - id: python-check-blanket-type-ignore
+      - id: python-check-blanket-noqa
+
+  - repo: https://github.com/asottile/yesqa
+    rev: v1.3.0
+    hooks:
+      - id: yesqa
+        additional_dependencies: &flake8_deps
+#          - flake8-annotations
+          - flake8-bandit
+          - flake8-broken-line
+          - flake8-bugbear
+          - flake8-builtins
+          - flake8-comprehensions
+#          - flake8-docstrings
+          - flake8-eradicate
+          - flake8-logging-format
+          - flake8-markdown
+          - flake8-no-pep420
+#          - flake8-quotes
+          - flake8-simplify
+          - flake8-tidy-imports
+          - flake8-type-checking
+          - flake8-typing-imports
+          - flake8-use-fstring
+          - pep8-naming
+
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v2.29.1
+    hooks:
+      - id: pyupgrade
+        args: [--py39-plus]
+
   - repo: https://github.com/timothycrosley/isort
     rev: 5.10.1
     hooks:
@@ -40,6 +78,14 @@ repos:
     rev: 21.11b1
     hooks:
       - id: black
+
+  - repo: https://github.com/pycqa/flake8
+    rev: 4.0.1
+    hooks:
+      - id: flake8
+        exclude: ^(20|aoc)
+        args: [--ignore, 'E203,E501,S101']
+        additional_dependencies: *flake8_deps
 
 #  - repo: https://github.com/pre-commit/mirrors-mypy
 #    rev: v0.910-1

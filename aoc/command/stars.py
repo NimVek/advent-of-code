@@ -10,7 +10,7 @@ def cmd_stars(args):
     stars = args.api.stars()
     logger.debug(stars)
     readme = args.base / "README.md"
-    with open(readme, "r") as f:
+    with open(readme) as f:
         content = f.read()
     for year, stars in stars.items():
         color = colorsys.hsv_to_rgb(stars / 50 / 3, 1, 1)

@@ -1,6 +1,6 @@
 def one(string):
     location = [0, 0]
-    houses = set([tuple(location)])
+    houses = {tuple(location)}
     for direction in string:
         if direction == "^":
             location[0] += 1
@@ -16,7 +16,7 @@ def one(string):
 
 def two(string):
     location = [[0, 0], [0, 0]]
-    houses = set([tuple(location[0])])
+    houses = {tuple(location[0])}
     idx = 0
     for direction in string:
         if direction == "^":

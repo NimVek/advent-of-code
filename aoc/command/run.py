@@ -25,7 +25,7 @@ def preparse(string):
 def cmd_run(args):
     sys.path.append(str(args.current))
 
-    with open(args.current / "input", "r") as f:
+    with open(args.current / "input") as f:
         input = f.read().strip()
     input = preparse(input)
     solution = importlib.import_module(f"solution")
