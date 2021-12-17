@@ -11,20 +11,25 @@ def cmd_init(args):
         with open(solution, "w") as f:
             content = """import logging
 
+from aoc.lib.solution import SolutionBase
 
+
+__all__ = ["Solution"]
 logger = logging.getLogger(__name__)
 
 
-def prepare(data):
-    return data
+class Solution(SolutionBase):
+    @staticmethod
+    def prepare(data):
+        return data
 
+    @staticmethod
+    def one(data):
+        raise NotImplementedError
 
-def one(data):
-    raise NotImplementedError
-
-
-def two(data):
-    raise NotImplementedError
+    @staticmethod
+    def two(data):
+        raise NotImplementedError
 """
             f.write(content)
 
@@ -33,20 +38,20 @@ def two(data):
         with open(test, "w") as f:
             content = """import pytest
 
-from . import solution
+from .solution import Solution
 
 
 @pytest.mark.parametrize(
     ("part", "answer"),
     [
-        ("one", None),
-        ("two", None),
+        (1, None),
+        (2, None),
     ],
 )
 def test(part, answer):
     data = None
 
-    assert getattr(solution, part)(data) == answer
+    assert Solution.solve(part, data) == answer
 """
             f.write(content)
 

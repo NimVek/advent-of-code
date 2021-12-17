@@ -30,7 +30,8 @@ def cmd_run(args):
     input = preparse(input)
     solution = importlib.import_module(f"solution")
 
-    pprint.pprint(getattr(solution, args.part)(input))
+    part = 1 if args.part == "one" else 2
+    pprint.pprint(solution.Solution.solve(part, input))
 
 
 def cmd_answer(args):
