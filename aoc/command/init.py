@@ -24,11 +24,11 @@ class Solution(SolutionBase):
         return data
 
     @staticmethod
-    def one(data):
+    def part_01(data):
         raise NotImplementedError
 
     @staticmethod
-    def two(data):
+    def part_02(data):
         raise NotImplementedError
 """
             f.write(content)
