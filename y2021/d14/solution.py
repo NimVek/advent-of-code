@@ -26,8 +26,7 @@ class Solution(SolutionBase):
     @staticmethod
     def prepare(data):
         template, rules = data
-        rules = [rule.split(" -> ") for rule in rules]
-        rules = {a: z for (a, z) in rules}
+        rules = dict(rule.split(" -> ") for rule in rules)
         return template, rules
 
     @staticmethod
