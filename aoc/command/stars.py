@@ -1,6 +1,7 @@
-import colorsys
 import logging
 import re
+
+from aoc.misc import color
 
 
 logger = logging.getLogger(__name__)
@@ -13,11 +14,10 @@ def cmd_stars(args):
     with open(readme) as f:
         content = f.read()
     for year, stars in stars.items():
-        color = colorsys.hsv_to_rgb(stars / 50 / 3, 1, 1)
-        color = "".join([f"{int(i * 255):02x}" for i in color])
+        colour = color.color_scale(stars, (0, 50)) if stars else color.LIGHTGREY
         content = re.sub(
             fr"\(https:\/\/img\.shields\.io\/badge\/{year}-★_[^)]*\)",
-            f"(https://img.shields.io/badge/{year}-★_{stars}-{color})",
+            f"(https://img.shields.io/badge/{year}-★_{stars}-{colour.hex})",
             content,
         )
     with open(readme, "w") as f:
