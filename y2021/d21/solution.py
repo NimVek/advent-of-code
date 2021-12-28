@@ -90,3 +90,9 @@ class Solution(SolutionBase):
             players[player].roll(players[(player + 1) % 2])
             player = (player + 1) % 2
         return max(player.winning_universes for player in players)
+
+
+if __name__ == "__main__":
+    import aoc.lib.main
+
+    aoc.lib.main.main(Solution)
