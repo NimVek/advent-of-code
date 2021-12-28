@@ -1,3 +1,6 @@
+import inspect
+
+
 def cmd_init(args):
     args.current.mkdir(parents=True, exist_ok=True)
 
@@ -9,51 +12,16 @@ def cmd_init(args):
     solution = args.current / "solution.py"
     if not solution.is_file():
         with open(solution, "w") as f:
-            content = """import logging
+            import aoc.template.solution
 
-from aoc.lib.solution import SolutionBase
-
-
-__all__ = ["Solution"]
-logger = logging.getLogger(__name__)
-
-
-class Solution(SolutionBase):
-    @staticmethod
-    def prepare(data):
-        return data
-
-    @staticmethod
-    def part_01(data):
-        raise NotImplementedError
-
-    @staticmethod
-    def part_02(data):
-        raise NotImplementedError
-"""
-            f.write(content)
+            f.write(inspect.getsource(aoc.template.solution))
 
     test = args.current / "test.py"
     if not test.is_file():
         with open(test, "w") as f:
-            content = """import pytest
+            import aoc.template.test
 
-from .solution import Solution
-
-
-@pytest.mark.parametrize(
-    ("part", "answer"),
-    [
-        (1, None),
-        (2, None),
-    ],
-)
-def test(part, answer):
-    data = None
-
-    assert Solution.solve(part, data) == answer
-"""
-            f.write(content)
+            f.write(inspect.getsource(aoc.template.test))
 
     readme = args.current / "README.md"
     if not readme.is_file():
