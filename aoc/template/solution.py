@@ -19,3 +19,9 @@ class Solution(SolutionBase):
     @staticmethod
     def part_02(data):
         raise NotImplementedError
+
+
+if __name__ == "__main__":
+    import aoc.lib.main
+
+    aoc.lib.main.main(Solution)
