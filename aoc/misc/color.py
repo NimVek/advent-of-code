@@ -56,10 +56,11 @@ def interpolate_color(start: Color, end: Color, mark: float):
 TRAFFIC_LIGHT = [RED, ORANGE, YELLOWGREEN, YELLOW, GREEN, BRIGHTGREEN]
 
 
-def color_scale(value, range_, scale=TRAFFIC_LIGHT):
+def color_scale(value, range_, scale=None):
+    if scale is None:
+        scale = TRAFFIC_LIGHT
     idx = (value - range_[0]) * (len(scale) - 1) / (range_[1] - range_[0])
     color = scale[math.floor(idx) : math.ceil(idx) + 1]
     if len(color) == 1:
         return color[0]
-    else:
-        return interpolate_color(color[0], color[1], idx - math.floor(idx))
+    return interpolate_color(color[0], color[1], idx - math.floor(idx))

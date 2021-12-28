@@ -17,7 +17,7 @@ def cmd_stars(args):
         colour = color.color_scale(stars, (0, 50)) if stars else color.LIGHTGREY
         content = re.sub(
             fr"\(https:\/\/img\.shields\.io\/badge\/{year}-★_[^)]*\)",
-            f"(https://img.shields.io/badge/{year}-★_{stars}-{colour.hex})",
+            f"(https://img.shields.io/badge/{year}-★_{stars}-{colour.html})",
             content,
         )
     with open(readme, "w") as f:
