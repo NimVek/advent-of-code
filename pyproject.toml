@@ -60,6 +60,7 @@ black = "^21.11b1"
 toml = "^0.10.2"
 types-toml = "^0.10.1"
 pytest-annotate = "^1.0.4"
+pytest-skip-slow = "^0.0.2"
 
 [tool.poetry.scripts]
 aoc = 'aoc.main:main'
@@ -67,6 +68,3 @@ aoc = 'aoc.main:main'
 [tool.pytest.ini_options]
 python_files = ["test_*.py", "test.py"]
 norecursedirs = [".*","template"]
-markers = [
-    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
-]

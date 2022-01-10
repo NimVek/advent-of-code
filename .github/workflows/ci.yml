@@ -110,7 +110,7 @@ jobs:
 
       - name: Test
         run: |
-          poetry run pytest -m "not slow" --verbose --numprocesses=auto --cov=. --cov-config=dev/.coveragerc --cov-report=xml
+          poetry run pytest --verbose --numprocesses=auto --cov=. --cov-config=dev/.coveragerc --cov-report=xml
 
       - name: Coverage
         uses: codecov/codecov-action@v2.1.0
