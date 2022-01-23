@@ -1,25 +1,12 @@
-import collections.abc
 import importlib
-import itertools
+import logging
 import pprint
 import sys
 
-
-def simplify(item):
-    if isinstance(item, collections.abc.Iterable) and not isinstance(item, str):
-        item = list(item)
-        if len(item) == 1:
-            return item[0]
-    return item
+import aoc.lib.parse
 
 
-def preparse(string):
-    result = [
-        simplify(v)
-        for k, v in itertools.groupby(string.splitlines(), lambda x: x.strip() != "")
-        if k
-    ]
-    return simplify(result)
+logger = logging.getLogger(__name__)
 
 
 def cmd_run(args):
@@ -27,7 +14,7 @@ def cmd_run(args):
 
     with open(args.current / "input") as f:
         data = f.read().strip()
-    data = preparse(data)
+    data = aoc.lib.parse.parse_blocks(data)
     solution = importlib.import_module("solution")
 
     part = 1 if args.part == "one" else 2
