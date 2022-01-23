@@ -33,7 +33,7 @@ class Player:
         return self.score >= winning_score
 
 
-class QuantumDice:  # noqa: SIM119
+class QuantumDice:
     def __init__(self, sides=3, quantity=3):
         values = range(1, sides + 1)
         dice = (values,) * quantity
