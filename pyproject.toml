@@ -55,12 +55,13 @@ pytest = "^6.2.5"
 pytest-cov = "^3.0.0"
 pytest-randomly = "^3.10.2"
 pytest-xdist = "^2.4.0"
+pytest-annotate = "^1.0.4"
+pytest-skip-slow = "^0.0.2"
+pytest-timeout = "^2.1.0"
 toml-sort = "^0.19.0"
 black = "^22.1"
 toml = "^0.10.2"
 types-toml = "^0.10.1"
-pytest-annotate = "^1.0.4"
-pytest-skip-slow = "^0.0.2"
 
 [tool.poetry.scripts]
 aoc = 'aoc.main:main'
@@ -68,3 +69,4 @@ aoc = 'aoc.main:main'
 [tool.pytest.ini_options]
 python_files = ["test_*.py", "test.py"]
 norecursedirs = [".*","template"]
+timeout = 60
