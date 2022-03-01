@@ -38,7 +38,7 @@ jobs:
             lint-${{ runner.os }}-${{ matrix.python }}-
 
       - name: Set up Python ${{ matrix.python }}
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v3
         with:
           python-version: ${{ matrix.python }}
 
@@ -93,7 +93,7 @@ jobs:
             test-${{ runner.os }}-${{ matrix.python }}-
 
       - name: Set up Python ${{ matrix.python }}
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v3
         with:
           python-version: ${{ matrix.python }}
 
