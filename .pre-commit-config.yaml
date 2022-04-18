@@ -87,7 +87,7 @@ repos:
     hooks:
       - id: flake8
         exclude: ^(20)
-        args: [--ignore, 'E203,E501,S101']
+        args: [--ignore, 'E203,E501,S101', --min-python-version, 3.9.0]
         additional_dependencies: *flake8_deps
 
 #  - repo: https://github.com/pre-commit/mirrors-mypy
