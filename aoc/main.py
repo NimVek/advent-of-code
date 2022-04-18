@@ -13,10 +13,10 @@ problems: the code will get executed twice:
 
 Also see (1) from http://click.pocoo.org/5/setuptools/#setuptools-integration
 """
+from __future__ import annotations
+
 import argparse
 import logging
-
-from typing import TYPE_CHECKING
 
 import aoc
 
@@ -25,15 +25,12 @@ from . import arguments
 
 logger = logging.getLogger(__name__)
 
-if TYPE_CHECKING:
-    from typing import Optional
-
 
 def set_loglevel(args):
     pass
 
 
-def main(args: Optional[list[str]] = None) -> int:
+def main(args: list[str] | None = None) -> int:
     """Console script for aoc.
 
     Args:
