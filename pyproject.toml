@@ -67,6 +67,6 @@ types-toml = "^0.10.1"
 aoc = 'aoc.main:main'
 
 [tool.pytest.ini_options]
-python_files = ["test_*.py", "test.py"]
+python_files = ["test_*.py"]
 norecursedirs = [".*","template"]
 timeout = 60
