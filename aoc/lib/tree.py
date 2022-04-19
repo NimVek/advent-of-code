@@ -1,14 +1,22 @@
+from __future__ import annotations
+
 import logging
 
 from collections.abc import Sequence
+from typing import TYPE_CHECKING
 
+
+if TYPE_CHECKING:
+    from typing import Any
 
 __all__ = ["Node", "BinaryNode"]
 logger = logging.getLogger(__name__)
 
 
 class Node(Sequence):
-    def __init__(self, value, parent=None):
+    def __init__(
+        self, value: Node | Sequence | Any, parent: Node | None = None
+    ) -> None:
         self.parent = parent
         if isinstance(value, Node):
             value = value.value
@@ -18,26 +26,26 @@ class Node(Sequence):
             self.value = value
 
     @property
-    def depth(self):
+    def depth(self) -> int:
         if self.parent:
             return self.parent.depth + 1
         return 0
 
     @property
-    def is_internal(self):
+    def is_internal(self) -> bool:
         return isinstance(self.value, Sequence)
 
     @property
-    def is_leaf(self):
+    def is_leaf(self) -> bool:
         return not self.is_internal
 
-    def __len__(self):
+    def __len__(self) -> int:
         if self.is_internal:
             return sum(map(len, self.value))
         else:
             return 1
 
-    def __getitem__(self, idx):
+    def __getitem__(self, idx: int) -> Any:
         logger.error((self, idx))
         if self.is_internal:
             for child in self.value:
@@ -48,14 +56,14 @@ class Node(Sequence):
         else:
             return self.value
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         if self.is_internal:
             return "[" + ", ".join(map(repr, self.value)) + "]"
         else:
             return str(self.value)
 
     @property
-    def nested(self):
+    def nested(self) -> Any | Sequence:
         if self.is_leaf:
             return self.value
         else:
@@ -64,18 +72,18 @@ class Node(Sequence):
 
 class BinaryNode(Node):
     @property
-    def left(self):
+    def left(self) -> BinaryNode:
         if self.is_leaf:
             raise NotImplementedError
         return self.value[0]
 
     @property
-    def right(self):
+    def right(self) -> BinaryNode:
         if self.is_leaf:
             raise NotImplementedError
         return self.value[1]
 
-    def previous_node(self):
+    def previous_node(self) -> BinaryNode:
         if self.is_internal:
             result = self.left
             while result.is_internal:
@@ -88,7 +96,7 @@ class BinaryNode(Node):
                 result = now.parent
         return result
 
-    def next_node(self):
+    def next_node(self) -> BinaryNode:
         if self.is_internal:
             result = self.right
             while result.is_internal:
@@ -101,13 +109,13 @@ class BinaryNode(Node):
                 result = now.parent
         return result
 
-    def previous_leaf(self):
+    def previous_leaf(self) -> BinaryNode:
         result = self.previous_node()
         while result and result.is_internal:
             result = result.previous_node()
         return result
 
-    def next_leaf(self):
+    def next_leaf(self) -> BinaryNode:
         result = self.next_node()
         while result and result.is_internal:
             result = result.next_node()
