@@ -22,7 +22,7 @@ class Color:
             super().__setattr__("rgb", colorsys.hsv_to_rgb(*hsv))
         elif rgb is None and html is not None:
             html = [html[i : i + 2] for i in range(0, len(html), 2)]
-            html = map(lambda x: int(x, 16) / 255, html)
+            html = (int(i, 16) / 255 for i in html)
             super().__setattr__("rgb", tuple(html))
 
     @property

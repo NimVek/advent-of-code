@@ -210,7 +210,7 @@ class BitBuffer:
 class Solution(SolutionBase):
     @staticmethod
     def prepare(data):
-        return BitBuffer("".join(map(lambda byte: f"{byte:08b}", bytes.fromhex(data))))
+        return BitBuffer("".join(f"{byte:08b}" for byte in bytes.fromhex(data)))
 
     @staticmethod
     def generic(data, attribute):
