@@ -5,7 +5,19 @@ import subprocess  # noqa: S404
 import toml
 
 
+IGNORED = ["python"]
+
+
+def poerty_add(dependency, args):
+    subprocess.run(["poetry", "add", *args, dependency + "@latest"])  # noqa: S603, S607
+
+
+def update_dependencies(dependencies, args=[]):
+    for dependency in dependencies:
+        if dependency not in IGNORED:
+            poerty_add(dependency, args)
+
+
 project = toml.load("pyproject.toml")
-for dep in project["tool"]["poetry"]["dev-dependencies"]:
-    for action in ["remove", "add"]:
-        subprocess.run(["poetry", action, "--dev", dep])  # noqa: S603, S607
+update_dependencies(project["tool"]["poetry"]["dependencies"])
+update_dependencies(project["tool"]["poetry"]["dev-dependencies"], ["--dev"])
