@@ -20,7 +20,6 @@ def type_directory(string):
 
 
 def setup_parser(parser):
-
     now = datetime.datetime.now()
     parser.add_argument(
         "-y",

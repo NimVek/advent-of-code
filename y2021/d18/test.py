@@ -42,7 +42,6 @@ def test(part, answer):
     ],
 )
 def test_magnitude(number, magnitude):
-
     assert SnailfishNumber(number).magnitude == magnitude
 
 
@@ -63,7 +62,6 @@ def test_magnitude(number, magnitude):
     ],
 )
 def test_explode(number, exploded):
-
     number = SnailfishNumber(number)
     number._explode()
     assert number.nested == exploded
@@ -83,7 +81,6 @@ def test_explode(number, exploded):
     ],
 )
 def test_split(number, splitted):
-
     number = SnailfishNumber(number)
     number._split()
     assert number.nested == splitted
