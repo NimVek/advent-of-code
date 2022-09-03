@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        python: [3.9]
+        python: [3.10]
         include:
           - os: ubuntu-latest
             CACHE_PIP: ~/.cache/pip
@@ -58,7 +58,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        python: [3.9]
+        python: [3.10]
         include:
           - os: ubuntu-latest
             CACHE_PIP: ~/.cache/pip
