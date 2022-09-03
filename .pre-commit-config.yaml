@@ -69,7 +69,7 @@ repos:
     rev: v2.37.3
     hooks:
       - id: pyupgrade
-        args: [--py39-plus]
+        args: [--py310-plus]
 
   - repo: https://github.com/timothycrosley/isort
     rev: 5.10.1
