@@ -16,14 +16,15 @@ Also see (1) from http://click.pocoo.org/5/setuptools/#setuptools-integration
 from __future__ import annotations
 
 import argparse
-import logging
 
 import aoc
 
 from . import arguments
 
+import logging
 
-logger = logging.getLogger(__name__)
+
+__log__ = logging.getLogger(__name__)
 
 
 def set_loglevel(args):
@@ -69,5 +70,5 @@ def main(args: list[str] | None = None) -> int:
 
     set_loglevel(parsed)
 
-    logger.debug(f"Arguments: {parsed}")
+    __log__.debug(f"Arguments: {parsed}")
     return parsed.func(parsed)

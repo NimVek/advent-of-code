@@ -1,9 +1,10 @@
 import collections.abc
 import itertools
+
 import logging
 
 
-logger = logging.getLogger(__name__)
+__log__ = logging.getLogger(__name__)
 
 
 def flatten(item):

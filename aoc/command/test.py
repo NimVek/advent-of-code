@@ -2,6 +2,11 @@ import errno
 
 import pytest
 
+import logging
+
+
+__log__ = logging.getLogger(__name__)
+
 
 def cmd_test(args):
     targets = None

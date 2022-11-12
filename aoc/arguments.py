@@ -1,15 +1,16 @@
 import argparse
 import contextlib
 import datetime
-import logging
 import pathlib
 
 import git
 
 from aoc import command
 
+import logging
 
-logger = logging.getLogger(__name__)
+
+__log__ = logging.getLogger(__name__)
 
 
 def type_directory(string):

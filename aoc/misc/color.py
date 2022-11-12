@@ -1,11 +1,12 @@
 import colorsys
-import logging
 import math
 
 from dataclasses import dataclass
 
+import logging
 
-logger = logging.getLogger(__name__)
+
+__log__ = logging.getLogger(__name__)
 
 
 @dataclass(frozen=True)

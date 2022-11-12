@@ -1,15 +1,16 @@
 import itertools
 import json
-import logging
 
 from collections.abc import Sequence
 
 from aoc.lib.solution import SolutionBase
 from aoc.lib.tree import BinaryNode
 
+import logging
+
 
 __all__ = ["Solution"]
-logger = logging.getLogger(__name__)
+__log__ = logging.getLogger(__name__)
 
 
 class SnailfishNumber(BinaryNode):

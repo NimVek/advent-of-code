@@ -1,12 +1,13 @@
 import importlib
-import logging
 import pprint
 import sys
 
 import aoc.lib.parse
 
+import logging
 
-logger = logging.getLogger(__name__)
+
+__log__ = logging.getLogger(__name__)
 
 
 def cmd_run(args):

@@ -1,15 +1,16 @@
-import logging
 import re
 
 from aoc.misc import color
 
+import logging
 
-logger = logging.getLogger(__name__)
+
+__log__ = logging.getLogger(__name__)
 
 
 def cmd_stars(args):
     stars = args.api.stars()
-    logger.debug(stars)
+    __log__.debug(stars)
     readme = args.base / "README.md"
     with open(readme) as f:
         content = f.read()

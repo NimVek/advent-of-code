@@ -1,16 +1,16 @@
 from __future__ import annotations
 
-import logging
-
 from collections.abc import Sequence
 from typing import TYPE_CHECKING
+
+import logging
 
 
 if TYPE_CHECKING:
     from typing import Any
 
 __all__ = ["Node", "BinaryNode"]
-logger = logging.getLogger(__name__)
+__log__ = logging.getLogger(__name__)
 
 
 class Node(Sequence):
@@ -46,7 +46,7 @@ class Node(Sequence):
             return 1
 
     def __getitem__(self, idx: int) -> Any:
-        logger.error((self, idx))
+        __log__.error((self, idx))
         if self.is_internal:
             for child in self.value:
                 if idx < len(child):

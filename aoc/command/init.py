@@ -1,5 +1,10 @@
 import inspect
 
+import logging
+
+
+__log__ = logging.getLogger(__name__)
+
 
 def cmd_init(args):
     args.current.mkdir(parents=True, exist_ok=True)

@@ -1,5 +1,10 @@
 import abc
 
+import logging
+
+
+__log__ = logging.getLogger(__name__)
+
 
 class SolutionBase(abc.ABC):
     @staticmethod

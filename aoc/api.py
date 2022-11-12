@@ -1,12 +1,13 @@
-import logging
 import re
 
 import bs4
 import html2markdown
 import requests
 
+import logging
 
-logger = logging.getLogger(__name__)
+
+__log__ = logging.getLogger(__name__)
 
 
 class API:
@@ -40,7 +41,7 @@ class API:
         html = self._request(
             "POST", f"{year}/day/{day}/answer", {"level": level, "answer": answer}
         )
-        logger.warning(html)
+        __log__.warning(html)
 
     def stars(self):
         result = {}

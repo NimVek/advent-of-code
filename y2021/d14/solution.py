@@ -1,12 +1,13 @@
 import collections
 import functools
-import logging
 
 from aoc.lib.solution import SolutionBase
 
+import logging
+
 
 __all__ = ["Solution"]
-logger = logging.getLogger(__name__)
+__log__ = logging.getLogger(__name__)
 
 
 class Polymerization:
