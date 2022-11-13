@@ -1,8 +1,11 @@
 import importlib
+import io
 import pprint
+import pstats
 import sys
 
 import aoc.lib.parse
+import aoc.lib.profile
 
 import logging
 
@@ -10,23 +13,42 @@ import logging
 __log__ = logging.getLogger(__name__)
 
 
-def cmd_run(args):
-    sys.path.append(str(args.current))
+def run_parameter(path, part):
+    sys.path.append(str(path))
 
-    with open(args.current / "input") as f:
+    with open(path / "input") as f:
         data = f.read().strip()
     data = aoc.lib.parse.parse_blocks(data)
     solution = importlib.import_module("solution")
+    data = solution.Solution.prepare(data)
 
-    part = 1 if args.part == "one" else 2
-    pprint.pprint(solution.Solution.solve(part, data))
+    part = 1 if part == "one" else 2
+    func = getattr(solution.Solution, f"part_{part:02}")
+    return (func, data)
+
+
+def run(path, part):
+    func, data = run_parameter(path, part)
+    return func(data)
+
+
+def cmd_run(args):
+    func, data = run_parameter(args.current, args.part)
+    func = aoc.lib.profile.profile(func)
+    result = func(data)
+    s = io.StringIO()
+    ps = pstats.Stats(func.__profile__, stream=s).strip_dirs().sort_stats("cumulative")
+    ps.print_stats(30)
+    print(s.getvalue())
+    pprint.pprint(result)
 
 
 def cmd_answer(args):
     level = 1
     if args.part == "two":
         level = 2
-    pprint.pprint(args.api.answer(args.year, args.day, level, args.answer))
+    answer = args.answer or run(args.current, args.part)
+    pprint.pprint(args.api.answer(args.year, args.day, level, answer))
 
 
 def setup_parser(parent_parser):
@@ -52,6 +74,6 @@ def setup_parser(parent_parser):
 
     parser.add_argument(
         "answer",
-        default="one",
+        nargs="?",
         type=str,
     )
