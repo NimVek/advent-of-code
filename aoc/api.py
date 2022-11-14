@@ -43,7 +43,22 @@ class API:
         )
         __log__.warning(html)
 
-    def stars(self):
+    def stars_of_year(self, year):
+        result = {}
+        html = self._request("GET", f"{year}")
+        if html:
+            soup = bs4.BeautifulSoup(html, "html.parser")
+            p = re.compile(r"Day (?P<day>\d+)(, (?P<stars>one|two))?")
+            for event in soup.find_all("a", {"aria-label": True}):
+                m = p.search(event["aria-label"])
+                if m:
+                    day = int(m.group("day"))
+                    stars = m.group("stars") or "zero"
+                    stars = {"zero": 0, "one": 1, "two": 2}[stars]
+                    result[day] = stars
+        return result
+
+    def stars(self, verbose=False):
         result = {}
         html = self._request("GET", "events")
         if html:
@@ -52,5 +67,7 @@ class API:
             for event in soup.find_all("div", {"class": "eventlist-event"}):
                 m = p.search(event.text)
                 if m:
-                    result[int(m.group("year"))] = int(m.group("stars") or 0)
+                    year = int(m.group("year"))
+                    stars = int(m.group("stars") or 0)
+                    result[year] = self.stars_of_year(year) if verbose else stars
         return result
