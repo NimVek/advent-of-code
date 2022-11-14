@@ -43,9 +43,42 @@ class Case:
         return self.answer(0)
 
 
+class Answer(Case):
+    def __init__(self, path):
+        self.path = path
+
+    @cached_property
+    def data(self):
+        with open(self.path) as f:
+            data = f.read().strip()
+        data = aoc.lib.parse.parse_blocks(data)
+        return data
+
+    @cached_property
+    def answers(self):
+        path = self.path.parent / "answers"
+        answers = []
+        if path.is_file():
+            with open(path) as f:
+                answers = f.read().strip()
+            answers = aoc.lib.parse.parse_blocks(answers)
+        return answers
+
+    def answer(self, idx):
+        if idx <= len(self.answers):
+            return self.answers[idx - 1]
+
+    @property
+    def name(self):
+        return self.path.name
+
+
 class AOCPuzzle(pytest.Module):
     def collect(self):
         self.cases = [Case(path) for path in self.path.parent.glob("cases/*.txt")]
+        data = self.path.parent / "input"
+        if data.is_file():
+            self.cases.append(Answer(data))
         for path in self.path.parent.glob("*.py"):
             if path.name == "test.py":
                 yield pytest.Module.from_parent(self, path=path)

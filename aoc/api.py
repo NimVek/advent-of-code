@@ -37,6 +37,17 @@ class API:
                 result.append(html2markdown.convert(article.renderContents()))
         return "\n\n".join(result)
 
+    def answers(self, year, day):
+        result = []
+        html = self._request("GET", f"{year}/day/{day}")
+        if html:
+            soup = bs4.BeautifulSoup(html, "html.parser")
+            for answer in soup.find_all("p"):
+                if answer.text.startswith("Your puzzle answer was"):
+                    for code in answer.find_all("code"):
+                        result.append(code.text)
+        return "\n".join(result)
+
     def answer(self, year, day, level, answer):
         html = self._request(
             "POST", f"{year}/day/{day}/answer", {"level": level, "answer": answer}

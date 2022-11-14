@@ -38,6 +38,11 @@ def cmd_init(args):
         with open(data, "w") as f:
             f.write(args.api.data(args.year, args.day))
 
+    answers = args.current / "answers"
+    if not answers.is_file():
+        with open(answers, "w") as f:
+            f.write(args.api.answers(args.year, args.day))
+
 
 def setup_parser(parent_parser):
     parser = parent_parser.add_parser("init")
