@@ -46,7 +46,7 @@ class API:
                 if answer.text.startswith("Your puzzle answer was"):
                     for code in answer.find_all("code"):
                         result.append(code.text)
-        return "\n".join(result)
+        return result
 
     def answer(self, year, day, level, answer):
         html = self._request(

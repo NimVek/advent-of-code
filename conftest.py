@@ -60,8 +60,7 @@ class Answer(Case):
         answers = []
         if path.is_file():
             with open(path) as f:
-                answers = f.read().strip()
-            answers = aoc.lib.parse.parse_blocks(answers)
+                answers = f.read().splitlines()
         return answers
 
     def answer(self, idx):
