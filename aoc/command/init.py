@@ -40,8 +40,10 @@ def cmd_init(args):
 
     answers = args.current / "answers"
     if not answers.is_file():
-        with open(answers, "w") as f:
-            f.write("\n".join(args.api.answers(args.year, args.day)) + "\n")
+        content = args.api.answers(args.year, args.day)
+        if content:
+            with open(answers, "w") as f:
+                f.write("\n".join(content) + "\n")
 
 
 def cmd_update(args):
@@ -57,8 +59,10 @@ def cmd_update(args):
             f.write(args.api.data(args.year, args.day))
 
     answers = args.current / "answers"
-    with open(answers, "w") as f:
-        f.write("\n".join(args.api.answers(args.year, args.day)) + "\n")
+    content = args.api.answers(args.year, args.day)
+    if content:
+        with open(answers, "w") as f:
+            f.write("\n".join(content) + "\n")
 
 
 def setup_parser(parent_parser):
