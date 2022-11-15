@@ -2,6 +2,7 @@ import argparse
 import contextlib
 import datetime
 import pathlib
+import re
 
 import git
 
@@ -21,27 +22,6 @@ def type_directory(string):
 
 
 def setup_parser(parser):
-    now = datetime.datetime.now()
-    parser.add_argument(
-        "-y",
-        "--year",
-        default=now.year,
-        type=int,
-        choices=range(2015, now.year + 1),
-        help=f"year of AoC event (2015..{now.year})",
-        metavar="YEAR",
-    )
-
-    parser.add_argument(
-        "-d",
-        "--day",
-        default=now.day,
-        type=int,
-        choices=range(1, 26),
-        help="day of AoC event (1..25)",
-        metavar="DAY",
-    )
-
     repo = None
     with contextlib.suppress(git.InvalidGitRepositoryError):
         repo = git.Repo(".", search_parent_directories=True)
@@ -71,6 +51,35 @@ def setup_parser(parser):
         help="session cookie for adventofcode.com",
         metavar="COOKIE",
         required=not cookie,
+    )
+
+    now = datetime.datetime.now()
+    year = now.year
+    day = now.day
+    cwd = pathlib.Path.cwd()
+    p = re.compile(r"/y(?P<year>\d+)(/d(?P<day>\d{2})(/|$))?")
+    m = p.search(str(cwd))
+    if m:
+        year = int(m.group("year") or year)
+        day = int(m.group("day") or day)
+    parser.add_argument(
+        "-y",
+        "--year",
+        default=year,
+        type=int,
+        choices=range(2015, now.year + 1),
+        help=f"year of AoC event (2015..{now.year})",
+        metavar="YEAR",
+    )
+
+    parser.add_argument(
+        "-d",
+        "--day",
+        default=day,
+        type=int,
+        choices=range(1, 26),
+        help="day of AoC event (1..25)",
+        metavar="DAY",
     )
 
     subparsers = parser.add_subparsers(dest="cmd", required=True)
