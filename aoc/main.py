@@ -28,7 +28,14 @@ __log__ = logging.getLogger(__name__)
 
 
 def set_loglevel(args):
-    pass
+    level = sorted(logging._levelToName)
+    idx = level.index(logging.root.level)
+    idx += args.quiet - args.verbose
+    idx = max(0, min(idx, len(level) - 1))
+    level = level[idx]
+    logging.basicConfig(level=level)
+    logging.captureWarnings(True)
+    __log__.info("Set loglevel to '%s'" % logging.getLevelName(level))
 
 
 def main(args: list[str] | None = None) -> int:
