@@ -1,21 +1,22 @@
-version = 1
+exclude_patterns = ["20*/**"]
 test_patterns = [
   "tests/**,",
   "**/test*.py"
 ]
-exclude_patterns = ["20*/**"]
+version = 1
 
 [[analyzers]]
-name = "python"
 enabled = true
+name = "python"
 
 [analyzers.meta]
 runtime_version = "3.x.x"
+skip_doc_coverage = ["module", "magic", "init", "class","nonpublic"]
 
 [[analyzers]]
+enabled = true
 name = "test-coverage"
-enabled = true
 
 [[analyzers]]
-name = "secrets"
 enabled = true
+name = "secrets"

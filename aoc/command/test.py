@@ -12,7 +12,7 @@ def cmd_test(args):
     targets = None
     if args.all:
         targets = set()
-        for i in args.base.glob("**/test_solution.py"):
+        for i in args.base.glob("y*/d*/solution.py"):
             targets.add(i.parent.parent)
     else:
         target = args.current

@@ -30,7 +30,6 @@ class Solution(SolutionBase):
         for depth, _range in data.items():
             steps = (_range - 1) * 2
             lcm = math.lcm(period, steps)
-            newset = []
             safe = [sum(i) for i in itertools.product(range(0, lcm, period), safe)]
             safe = [i for i in safe if (i % steps) != (-depth % steps)]
             period = lcm
