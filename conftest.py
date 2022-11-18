@@ -1,4 +1,3 @@
-import pathlib
 import re
 
 from functools import cached_property
@@ -86,7 +85,8 @@ class AOCPuzzle(pytest.Module):
 
 
 class AOCModule(pytest.Module):
-    def issolution(self, item):
+    @staticmethod
+    def issolution(item):
         return (
             isinstance(item, type)
             and issubclass(item, SolutionBase)
@@ -95,7 +95,7 @@ class AOCModule(pytest.Module):
 
     def collect(self):
         for name, obj in self.obj.__dict__.items():
-            if self.issolution(obj):
+            if AOCModule.issolution(obj):
                 yield AOCSolution.from_parent(self, name=name, obj=obj)
 
 

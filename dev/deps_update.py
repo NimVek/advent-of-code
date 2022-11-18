@@ -12,10 +12,10 @@ def poerty_add(dependency, args):
     subprocess.run(["poetry", "add", *args, dependency + "@latest"])  # noqa: S603, S607
 
 
-def update_dependencies(dependencies, args=[]):
+def update_dependencies(dependencies, args=None):
     for dependency in dependencies:
         if dependency not in IGNORED:
-            poerty_add(dependency, args)
+            poerty_add(dependency, args or [])
 
 
 project = toml.load("pyproject.toml")

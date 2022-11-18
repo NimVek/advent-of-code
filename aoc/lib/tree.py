@@ -53,8 +53,7 @@ class Node(Sequence):
                     return child[idx]
                 idx -= len(child)
             raise IndexError("index out of range")
-        else:
-            return self.value
+        return self.value
 
     def __repr__(self) -> str:
         if self.is_internal:

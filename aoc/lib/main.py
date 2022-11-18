@@ -10,4 +10,4 @@ def main(solution: type):
     parser = argparse.ArgumentParser()
     parsed = parser.parse_args()
 
-    __log__.error(f"Arguments: {parsed}")
+    __log__.error("Arguments: %s", parsed)

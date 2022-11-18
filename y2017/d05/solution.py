@@ -19,7 +19,7 @@ class Solution(SolutionBase):
         data = list(data)
         idx = 0
         step = 0
-        while idx >= 0 and idx < len(data):
+        while 0 <= idx < len(data):
             step += 1
             value = data[idx]
             data[idx] += increase(value)

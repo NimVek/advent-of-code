@@ -17,7 +17,7 @@ class Solution(SolutionBase):
     @staticmethod
     def generic(banks, final):
         length = len(banks)
-        reached = list()
+        reached = []
         while banks not in reached:
             reached.append(banks)
             __log__.debug(banks)

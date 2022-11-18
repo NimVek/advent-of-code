@@ -37,8 +37,7 @@ class Program:
         unbalanced = disc[0].tower_weight - disc[1].tower_weight
         if unbalanced != 0:
             return disc[0].balance(unbalanced)
-        else:
-            return self.weight - difference
+        return self.weight - difference
 
 
 class Solution(SolutionBase):
@@ -49,7 +48,7 @@ class Solution(SolutionBase):
         for line in data:
             m = p.match(line)
             disc = m.group("disc")
-            disc = tuple(disc.split(", ")) if disc else tuple()
+            disc = tuple(disc.split(", ")) if disc else ()
             program = Program(m.group("name"), int(m.group("weight")), disc)
             program.library = library
             library[program.name] = program
