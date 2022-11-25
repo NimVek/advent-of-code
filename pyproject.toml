@@ -39,7 +39,7 @@ license = "GPL-3.0-or-later"
 name = "aoc"
 readme = "README.md"
 repository = "https://github.com/NimVek/advent-of-code"
-version = "21.11.0"
+version = "22.11.0"
 
 [tool.poetry.dependencies]
 GitPython = "^3.1.29"
