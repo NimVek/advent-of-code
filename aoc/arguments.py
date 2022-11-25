@@ -5,8 +5,11 @@ import pathlib
 import re
 
 import git
+import platformdirs
 
 from aoc import command
+
+from . import __about__
 
 import logging
 
@@ -30,10 +33,22 @@ def setup_parser(parser):
         "-b",
         "--base",
         default=repo,
-        type=str,
+        type=type_directory,
         help="base dir of your solutions",
         metavar="BASE",
         required=not repo,
+    )
+
+    cache = pathlib.Path(
+        platformdirs.user_cache_dir(__about__.__title__, __about__.__author__)
+    )
+    cache.mkdir(parents=True, exist_ok=True)
+    parser.add_argument(
+        "--cache",
+        default=cache,
+        type=type_directory,
+        help="cache dir for aoc http requests",
+        metavar="AOC_CACHE_DIR",
     )
 
     cookie = None
@@ -54,8 +69,13 @@ def setup_parser(parser):
     )
 
     now = datetime.datetime.now()
-    year = now.year
-    day = now.day
+    if now.month < 12:
+        year = now.year - 1
+        day = 25
+    else:
+        year = now.year
+        day = min(now.day, 25)
+    max_year = year
     cwd = pathlib.Path.cwd()
     p = re.compile(r"/y(?P<year>\d+)(/d(?P<day>\d{2})(/|$))?")
     m = p.search(str(cwd))
@@ -67,8 +87,8 @@ def setup_parser(parser):
         "--year",
         default=year,
         type=int,
-        choices=range(2015, now.year + 1),
-        help=f"year of AoC event (2015..{now.year})",
+        choices=range(2015, max_year + 1),
+        help=f"year of AoC event (2015..{max_year})",
         metavar="YEAR",
     )
 

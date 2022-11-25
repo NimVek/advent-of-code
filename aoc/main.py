@@ -19,23 +19,14 @@ import argparse
 
 import aoc
 
+from aoc.misc.log import set_loglevel
+
 from . import arguments
 
 import logging
 
 
 __log__ = logging.getLogger(__name__)
-
-
-def set_loglevel(args):
-    level = sorted(logging._levelToName)
-    idx = level.index(logging.root.level)
-    idx += args.quiet - args.verbose
-    idx = max(0, min(idx, len(level) - 1))
-    level = level[idx]
-    logging.basicConfig(level=level)
-    logging.captureWarnings(True)
-    __log__.info("Set loglevel to '%s'", logging.getLevelName(level))
 
 
 def main(args: list[str] | None = None) -> int:
@@ -71,11 +62,10 @@ def main(args: list[str] | None = None) -> int:
     arguments.setup_parser(parser)
 
     parsed = parser.parse_args(args=args)
+    set_loglevel(parsed)
 
     parsed.current = parsed.base / f"y{parsed.year}" / f"d{parsed.day:02d}"
-    parsed.api = aoc.API(parsed.cookie)
-
-    set_loglevel(parsed)
+    parsed.api = aoc.API(cookie=parsed.cookie, cache_dir=parsed.cache)
 
     __log__.debug("Arguments: %s", parsed)
     return parsed.func(parsed)

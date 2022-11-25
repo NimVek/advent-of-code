@@ -2,7 +2,8 @@ import re
 
 import bs4
 import html2markdown
-import requests
+
+from aoc.misc import session
 
 import logging
 
@@ -11,19 +12,14 @@ __log__ = logging.getLogger(__name__)
 
 
 class API:
-
-    BASE_URL = "https://adventofcode.com"
-
-    def __init__(self, cookie):
-        self.cookie = cookie
+    def __init__(self, cookie, cache_dir):
+        self.session = session.CachedSession(
+            cache_dir=cache_dir, base="https://adventofcode.com"
+        )
+        self.session.cookies.set("session", cookie, domain="adventofcode.com")
 
     def _request(self, method, suffix, data=None):
-        url = f"{self.BASE_URL}/{suffix}"
-        response = requests.request(
-            method, url, data=data, cookies={"session": self.cookie}
-        )
-        if response.ok:
-            return response.text
+        return self.session.request(method, suffix, data=data)
 
     def data(self, year, day):
         return self._request("GET", f"{year}/day/{day}/input")
@@ -52,7 +48,16 @@ class API:
         html = self._request(
             "POST", f"{year}/day/{day}/answer", {"level": level, "answer": answer}
         )
-        __log__.warning(html)
+        __log__.debug(html)
+        if html:
+            soup = bs4.BeautifulSoup(html, "html.parser")
+            for article in soup.find_all("article"):
+                result = html2markdown.convert(article.renderContents())
+                if result.startswith("That's the right answer!") or True:
+                    self.session.purge(f"{year}/day/{day}")
+                    self.session.purge(f"{year}")
+                    self.session.purge("events")
+                return result
 
     def stars_of_year(self, year):
         result = {}
