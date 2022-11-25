@@ -1,9 +1,13 @@
+import datetime
 import enum
 import importlib
 import io
-import pprint
 import pstats
+import re
 import sys
+
+import dateparser
+import termcolor
 
 import aoc.lib.parse
 import aoc.lib.profile
@@ -41,12 +45,42 @@ def cmd_run(args):
     ps = pstats.Stats(func.__profile__, stream=s).strip_dirs().sort_stats("cumulative")
     ps.print_stats(30)
     print(s.getvalue())
-    pprint.pprint(result)
+    print("The Answer is %s", repr(result))
 
 
 def cmd_answer(args):
     answer = args.answer or run(args.current, args.part.value)
-    pprint.pprint(args.api.answer(args.year, args.day, level, answer))
+    __log__.info(
+        "Send answer %s to mission (Year %d, Day %d, Part %d)",
+        repr(answer),
+        args.year,
+        args.day,
+        args.part.value,
+    )
+    result = args.api.answer(args.year, args.day, args.part.value, answer)
+    if result.startswith("That's the right answer!"):
+        termcolor.cprint(result.split("! ")[0] + "!", "green")
+    elif result.startswith(
+        "You don't seem to be solving the right level. Did you already complete it?"
+    ):
+        termcolor.cprint(result.split("? ")[0] + "?", "yellow")
+    else:
+        if result.startswith("That's not the right answer."):
+            termcolor.cprint(result.split(". ")[0] + ".", "red")
+            until = datetime.datetime.now() + datetime.timedelta(seconds=60)
+        elif result.startswith("You gave an answer too recently;"):
+            # you have to wait after submitting an answer before trying again. You have 29s left to wait."):
+            termcolor.cprint(result.split("; ")[0] + ";", "red")
+            delay = result.split(". ")[1] + "."
+            m = re.match("You have (?P<delay>.*) left to wait.", delay)
+            if m:
+                until = dateparser.parse("in " + m.group("delay"))
+        if isinstance(until, datetime.datetime):
+            until = "Until %s" % until.isoformat(timespec="seconds")
+        print(
+            "You have to wait after submitting an answer before trying again. (%s)"
+            % until
+        )
 
 
 class Level(enum.IntEnum):

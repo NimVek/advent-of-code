@@ -53,7 +53,7 @@ class API:
             soup = bs4.BeautifulSoup(html, "html.parser")
             for article in soup.find_all("article"):
                 result = html2markdown.convert(article.renderContents())
-                if result.startswith("That's the right answer!") or True:
+                if result.startswith("That's the right answer!"):
                     self.session.purge(f"{year}/day/{day}")
                     self.session.purge(f"{year}")
                     self.session.purge("events")
