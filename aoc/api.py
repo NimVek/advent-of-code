@@ -1,9 +1,10 @@
+import inspect
 import re
 
 import bs4
 import html2markdown
 
-from aoc.misc import session
+from aoc.misc import color, session
 
 import logging
 
@@ -20,6 +21,12 @@ class API:
 
     def _request(self, method, suffix, data=None):
         return self.session.request(method, suffix, data=data)
+
+    def purge(self, year, day):
+        self.session.purge(f"{year}/day/{day}/input")
+        self.session.purge(f"{year}/day/{day}")
+        self.session.purge(f"{year}")
+        self.session.purge("events")
 
     def data(self, year, day):
         return self._request("GET", f"{year}/day/{day}/input")
@@ -52,12 +59,7 @@ class API:
         if html:
             soup = bs4.BeautifulSoup(html, "html.parser")
             for article in soup.find_all("article"):
-                result = html2markdown.convert(article.renderContents())
-                if result.startswith("That's the right answer!"):
-                    self.session.purge(f"{year}/day/{day}")
-                    self.session.purge(f"{year}")
-                    self.session.purge("events")
-                return result
+                return html2markdown.convert(article.renderContents())
 
     def stars_of_year(self, year):
         result = {}
@@ -87,3 +89,70 @@ class API:
                     stars = int(m.group("stars") or 0)
                     result[year] = self.stars_of_year(year) if verbose else stars
         return result
+
+    def initialize(self, base, year, day, update=False, force=False):
+        update = update or force
+
+        year_path = base / f"y{year}"
+        year_path.mkdir(parents=True, exist_ok=True)
+
+        init = year_path / "__init__.py"
+        if not init.is_file():
+            with open(init, "w") as f:
+                pass
+
+        day_path = year_path / f"d{day:02d}"
+        day_path.mkdir(parents=True, exist_ok=True)
+
+        init = day_path / "__init__.py"
+        if not init.is_file() or update:
+            with open(init, "w") as f:
+                pass
+
+        solution = day_path / "solution.py"
+        if not solution.is_file() or force:
+            with open(solution, "w") as f:
+                import aoc.template.solution
+
+                f.write(inspect.getsource(aoc.template.solution))
+
+        test = day_path / "test.py"
+        if not (test.is_file() or update) or force:
+            with open(test, "w") as f:
+                import aoc.template.test
+
+                f.write(inspect.getsource(aoc.template.test))
+
+        readme = day_path / "README.md"
+        if not readme.is_file() or update:
+            with open(readme, "w") as f:
+                f.write(self.mission(year, day))
+
+        data = day_path / "input"
+        if not data.is_file() or update:
+            with open(data, "w") as f:
+                f.write(self.data(year, day))
+
+        answers = day_path / "answers"
+        if not answers.is_file() or update:
+            content = self.answers(year, day)
+            if content:
+                with open(answers, "w") as f:
+                    f.write("\n".join(content) + "\n")
+
+    def update_readme(self, base, events=None):
+        events = events or self.stars()
+
+        readme = base / "README.md"
+        with open(readme) as f:
+            content = f.read()
+        for year, days in events.items():
+            stars = days if isinstance(days, int) else sum(days.values())
+            colour = color.color_scale(stars, (0, 50)) if stars else color.LIGHTGREY
+            content = re.sub(
+                rf"\(https:\/\/img\.shields\.io\/badge\/{year}-★_[^)]*\)",
+                f"(https://img.shields.io/badge/{year}-★_{stars}-{colour.html})",
+                content,
+            )
+        with open(readme, "w") as f:
+            f.write(content)

@@ -13,19 +13,9 @@ __log__ = logging.getLogger(__name__)
 def cmd_stars(args):
     events = args.api.stars(verbose=True)
     __log__.debug(events)
-    readme = args.base / "README.md"
-    with open(readme) as f:
-        content = f.read()
-    for year, days in events.items():
-        stars = days if isinstance(days, int) else sum(days.values())
-        colour = color.color_scale(stars, (0, 50)) if stars else color.LIGHTGREY
-        content = re.sub(
-            rf"\(https:\/\/img\.shields\.io\/badge\/{year}-★_[^)]*\)",
-            f"(https://img.shields.io/badge/{year}-★_{stars}-{colour.html})",
-            content,
-        )
-    with open(readme, "w") as f:
-        f.write(content)
+
+    args.api.update_readme(args.base, events)
+
     for year, days in sorted(events.items()):
         print(year, end=" ")
         if isinstance(days, int):
