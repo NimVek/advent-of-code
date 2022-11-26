@@ -45,7 +45,7 @@ def cmd_run(args):
     ps = pstats.Stats(func.__profile__, stream=s).strip_dirs().sort_stats("cumulative")
     ps.print_stats(30)
     print(s.getvalue())
-    print("The Answer is %s", repr(result))
+    print("The Answer is %s" % repr(result))
 
 
 def cmd_answer(args):
