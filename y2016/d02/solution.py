@@ -1,6 +1,7 @@
 import functools
 
-from aoc.lib.algebra import Direction2D, Vector
+from aoc.lib.algebra import Vector
+from aoc.lib.grid import Direction2D, Origin2D
 from aoc.lib.solution import SolutionBase
 
 import logging
@@ -12,7 +13,7 @@ __log__ = logging.getLogger(__name__)
 
 class StandardLayout:
     def __init__(self):
-        self.position = Vector(0, 0)
+        self.position = Origin2D
 
     def move(self, direction):
         newposition = self.position + direction

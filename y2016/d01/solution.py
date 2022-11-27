@@ -1,6 +1,6 @@
 import functools
 
-from aoc.lib.algebra import Direction2D, Rotation2D, Vector
+from aoc.lib.grid import Direction2D, Origin2D, Rotation2D
 from aoc.lib.solution import SolutionBase
 
 import logging
@@ -12,7 +12,7 @@ __log__ = logging.getLogger(__name__)
 
 class Navigator:
     def __init__(self):
-        self.location = Vector(0, 0)
+        self.location = Origin2D
         self.direction = Direction2D.NORTH
 
     def turn(self, turn):
