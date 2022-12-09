@@ -16,6 +16,9 @@ class Vector(tuple):
     def __add__(self, other):
         return self.__class__(map(sum, zip(self, other)))
 
+    def __sub__(self, other):
+        return self.__class__(x - y for x, y in zip(self, other))
+
     def norm(self, order):
         return sum(abs(i) ** order for i in self) ** (1.0 / order)
 
