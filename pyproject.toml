@@ -66,7 +66,7 @@ pytest-skip-slow = "^0.0.3"
 pytest-timeout = "^2.1.0"
 pytest-xdist = "^3.0.2"
 toml = "^0.10.2"
-toml-sort = "^0.20.1"
+toml-sort = "^0.23.0"
 types-toml = "^0.10.8"
 
 [tool.poetry.scripts]
