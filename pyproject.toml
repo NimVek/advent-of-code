@@ -17,22 +17,22 @@ line_length = 88
 lines_after_imports = 2
 lines_between_types = 1
 multi_line_output = 3
-sections = ["FUTURE", "STDLIB", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER", "LOGGING" ]
+sections = ["FUTURE", "STDLIB", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER", "LOGGING"]
 use_parentheses = true
 
 [tool.poetry]
 authors = ["NimVek <NimVek@users.noreply.github.com>"]
 classifiers = [
-    "Topic :: Education",
-    "Intended Audience :: Education",
-    "Environment :: Console",
-    "Operating System :: OS Independent",
-    "Natural Language :: English",
-    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
-    "Programming Language :: Python",
-    "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.9",
-    "Development Status :: 3 - Alpha",
+  "Topic :: Education",
+  "Intended Audience :: Education",
+  "Environment :: Console",
+  "Operating System :: OS Independent",
+  "Natural Language :: English",
+  "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.9",
+  "Development Status :: 3 - Alpha"
 ]
 description = "Advent of Code Helper."
 license = "GPL-3.0-or-later"
@@ -75,6 +75,9 @@ aoc = 'aoc.main:main'
 [tool.pytest.ini_options]
 log_cli = true
 log_cli_level = "DEBUG"
-norecursedirs = [".*","template"]
+norecursedirs = [".*", "template"]
 python_files = ["test_*.py"]
 timeout = 60
+
+[tool.tomlsort]
+overrides."tool.*".inline_arrays = false

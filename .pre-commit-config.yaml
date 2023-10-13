@@ -3,7 +3,7 @@
 # See https://pre-commit.com/hooks.html for more hooks
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0
+    rev: v4.5.0
     hooks:
       - id: trailing-whitespace
       - id: end-of-file-fixer
@@ -17,13 +17,13 @@ repos:
       - id: detect-private-key
 
   - repo: https://github.com/pappasam/toml-sort
-    rev: v0.20.1
+    rev: v0.23.1
     hooks:
       - id: toml-sort
         args: [--in-place]
 
   - repo: https://github.com/myint/docformatter
-    rev: v1.5.0
+    rev: v1.7.5
     hooks:
       - id: docformatter
 
@@ -34,7 +34,7 @@ repos:
 #        args: [--style, cirosantilli, --rules, '~first-header-h1,~first-line-h1,~no-trailing-punctuation']
 
   - repo: https://github.com/pre-commit/pygrep-hooks
-    rev: v1.9.0
+    rev: v1.10.0
     hooks:
       - id: python-check-mock-methods
       - id: python-use-type-annotations
@@ -66,19 +66,19 @@ repos:
 #          - pep8-naming
 
   - repo: https://github.com/asottile/pyupgrade
-    rev: v3.2.2
+    rev: v3.15.0
     hooks:
       - id: pyupgrade
         args: [--py310-plus]
 
   - repo: https://github.com/timothycrosley/isort
-    rev: 5.10.1
+    rev: 5.12.0
     hooks:
       - id: isort
         additional_dependencies: [toml]
 
   - repo: https://github.com/psf/black
-    rev: 22.10.0
+    rev: 23.9.1
     hooks:
       - id: black
 
@@ -96,13 +96,13 @@ repos:
 #      - id: mypy
 
   - repo: https://github.com/jumanjihouse/pre-commit-hook-yamlfmt
-    rev: 0.2.2
+    rev: 0.2.3
     hooks:
       - id: yamlfmt
         args: [--mapping, '2', --sequence, '4', --offset, '2', --colons, --width, '88']
 
   - repo: https://github.com/pappasam/toml-sort
-    rev: v0.20.1
+    rev: v0.23.1
     hooks:
       - id: toml-sort
         args: [--all, --in-place]
