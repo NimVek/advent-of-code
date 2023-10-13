@@ -10,9 +10,9 @@
 
 [![GitHub](https://img.shields.io/github/license/NimVek/advent-of-code)](https://github.com/NimVek/advent-of-code/blob/main/LICENSE)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-black)](https://github.com/psf/black)
-[![Build Status](https://img.shields.io/github/workflow/status/NimVek/advent-of-code/Continuous%20Integration)](https://github.com/NimVek/advent-of-code/actions/workflows/ci.yml)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/NimVek/advent-of-code/ci.yml?branch=main)](https://github.com/NimVek/advent-of-code/actions/workflows/ci.yml)
 [![Coverage Status](https://img.shields.io/codecov/c/github/NimVek/advent-of-code)](https://codecov.io/gh/NimVek/advent-of-code/)
-[![Code Scanning](https://img.shields.io/github/workflow/status/NimVek/advent-of-code/Code%20Scanning?label=code%20scanning)](https://github.com/NimVek/advent-of-code/security/code-scanning/)
+[![Code Scanning](https://img.shields.io/github/actions/workflow/status/NimVek/advent-of-code/analyse.yml?branch=main&label=code%20scanning)](https://github.com/NimVek/advent-of-code/security/code-scanning/)
 [![GitHub last commit](https://img.shields.io/github/last-commit/NimVek/advent-of-code)](https://github.com/NimVek/advent-of-code/commits/main)
 
 Advent of Code Solutions
