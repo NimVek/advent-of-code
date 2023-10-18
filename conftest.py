@@ -26,7 +26,7 @@ class Case:
     @cached_property
     def data(self):
         with open(self.path) as f:
-            data = f.read().strip()
+            data = f.read()
         data = aoc.lib.parse.parse_blocks(data)
         return data
 
@@ -49,7 +49,7 @@ class Answer(Case):
     @cached_property
     def data(self):
         with open(self.path) as f:
-            data = f.read().strip()
+            data = f.read()
         data = aoc.lib.parse.parse_blocks(data)
         return data
 
@@ -82,6 +82,18 @@ class AOCPuzzle(pytest.Module):
                 yield pytest.Module.from_parent(self, path=path)
             if path.name.startswith("solution"):
                 yield AOCModule.from_parent(self, path=path)
+
+    @property
+    def year(self):
+        return getattr(self.obj, "__year__", "__year__")
+
+    @property
+    def day(self):
+        return getattr(self.obj, "__day__", "__day__")
+
+    @property
+    def title(self):
+        return getattr(self.obj, "__title__", "__title__")
 
 
 class AOCModule(pytest.Module):
@@ -132,5 +144,69 @@ class AOCPart(pytest.Function):
         self.data = data
         self.answer = answer
 
+    @property
+    def puzzle(self):
+        this = self.parent
+        while this:
+            if isinstance(this, AOCPuzzle):
+                return this
+            else:
+                this = getattr(this, "parent", None)
+
     def runtest(self):
-        assert str(self.function(self.data)) == str(self.answer)
+        result = self.function(self.data)
+        if str(result) != str(self.answer):
+            raise AOCException(self, result)
+
+    def repr_failure(self, excinfo):
+        if isinstance(excinfo.value, AOCException):
+            return f"Expected {self.answer!r}, got {excinfo.value.args[1]!r}"
+        return super().repr_failure(excinfo)
+
+    def reportinfo(self):
+        return (
+            "filename",
+            None,
+            f"{self.puzzle.year} Day {self.puzzle.day}: {self.puzzle.title}",
+        )
+
+    def _traceback_filter(self, excinfo):
+        if hasattr(self, "_obj") and not self.config.getoption("fulltrace", False):
+            from _pytest._code import Code
+            from _pytest._code.code import Traceback, filter_traceback
+            from _pytest.compat import get_real_func
+
+            fun = get_real_func(self.obj)
+            # get_real_func not unwrap partial functions
+            while getattr(fun, "__wrapped__", None):
+                fun = getattr(fun, "__wrapped__")
+            code = Code.from_function(fun)
+            path, firstlineno = code.path, code.firstlineno
+            traceback = excinfo.traceback
+            ntraceback = traceback.cut(path=path, firstlineno=firstlineno)
+            if ntraceback == traceback:
+                ntraceback = ntraceback.cut(path=path)
+                if ntraceback == traceback:
+                    ntraceback = ntraceback.filter(filter_traceback)
+                    if not ntraceback:
+                        ntraceback = traceback
+            ntraceback = ntraceback.filter(excinfo)
+
+            # issue364: mark all but first and last frames to
+            # only show a single-line message for each frame.
+            if self.config.getoption("tbstyle", "auto") == "auto":
+                if len(ntraceback) > 2:
+                    ntraceback = Traceback(
+                        entry
+                        if i == 0 or i == len(ntraceback) - 1
+                        else entry.with_repr_style("short")
+                        for i, entry in enumerate(ntraceback)
+                    )
+            ntraceback = Traceback(entry for i, entry in enumerate(ntraceback))
+
+            return ntraceback
+        return excinfo.traceback
+
+
+class AOCException(Exception):
+    """Custom exception for result diffrence."""
