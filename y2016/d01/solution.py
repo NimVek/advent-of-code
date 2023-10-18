@@ -46,12 +46,11 @@ class Solution(SolutionBase):
 
     @staticmethod
     def generic(instructions, navigator):
-        for last in navigator.walk(instructions):
-            pass
+        *_, last = navigator().walk(instructions)
         return int(last.norm(1))
 
-    part_01 = functools.partial(generic, navigator=Navigator())
-    part_02 = functools.partial(generic, navigator=TwiceNavigator())
+    part_01 = functools.partial(generic, navigator=Navigator)
+    part_02 = functools.partial(generic, navigator=TwiceNavigator)
 
 
 if __name__ == "__main__":
