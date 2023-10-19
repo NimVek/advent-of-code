@@ -10,8 +10,10 @@ enabled = true
 name = "python"
 
 [analyzers.meta]
+max_line_length = 90
 runtime_version = "3.x.x"
 skip_doc_coverage = ["class", "init", "magic", "module", "nonpublic"]
+type_checker = "mypy"
 
 [[analyzers]]
 enabled = true
