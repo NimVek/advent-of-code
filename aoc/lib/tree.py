@@ -42,8 +42,7 @@ class Node(Sequence):
     def __len__(self) -> int:
         if self.is_internal:
             return sum(map(len, self.value))
-        else:
-            return 1
+        return 1
 
     def __getitem__(self, idx: int) -> Any:
         __log__.error((self, idx))
@@ -58,15 +57,13 @@ class Node(Sequence):
     def __repr__(self) -> str:
         if self.is_internal:
             return "[" + ", ".join(map(repr, self.value)) + "]"
-        else:
-            return str(self.value)
+        return str(self.value)
 
     @property
     def nested(self) -> Any | Sequence:
         if self.is_leaf:
             return self.value
-        else:
-            return [n.nested for n in self.value]
+        return [n.nested for n in self.value]
 
 
 class BinaryNode(Node):

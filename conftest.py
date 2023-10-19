@@ -17,6 +17,7 @@ __log__ = logging.getLogger(__name__)
 def pytest_collect_file(file_path, parent):
     if re.search(r"/y[0-9]{4,}/d(0[1-9]|1[0-9]|2[0-5])/__init__\.py", str(file_path)):
         return AOCPuzzle.from_parent(parent, path=file_path)
+    return None
 
 
 class Case:
@@ -43,9 +44,6 @@ class Case:
 
 
 class Answer(Case):
-    def __init__(self, path):
-        self.path = path
-
     @cached_property
     def data(self):
         with open(self.path) as f:
@@ -65,6 +63,7 @@ class Answer(Case):
     def answer(self, idx):
         if idx <= len(self.answers):
             return self.answers[idx - 1]
+        return None
 
     @property
     def name(self):
@@ -118,8 +117,7 @@ class AOCSolution(pytest.Class):
         while this:
             if hasattr(this, "cases"):
                 return this.cases
-            else:
-                this = getattr(this, "parent", None)
+            this = getattr(this, "parent", None)
 
     def collect(self):
         for case in self.cases:
@@ -150,8 +148,7 @@ class AOCPart(pytest.Function):
         while this:
             if isinstance(this, AOCPuzzle):
                 return this
-            else:
-                this = getattr(this, "parent", None)
+            this = getattr(this, "parent", None)
 
     def runtest(self):
         result = self.function(self.data)
@@ -198,7 +195,7 @@ class AOCPart(pytest.Function):
                 if len(ntraceback) > 2:
                     ntraceback = Traceback(
                         entry
-                        if i == 0 or i == len(ntraceback) - 1
+                        if i in [0, len(ntraceback) - 1]
                         else entry.with_repr_style("short")
                         for i, entry in enumerate(ntraceback)
                     )

@@ -1,8 +1,4 @@
-import re
-
 import termcolor
-
-from aoc.misc import color
 
 import logging
 

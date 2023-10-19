@@ -1,5 +1,3 @@
-import pytest
-
 from .solution import Exchange, Partner, Spin
 
 

@@ -47,7 +47,7 @@ class SnailfishNumber(BinaryNode):
 
     def _reduce(self):
         while self._explode() or self._split():
-            pass
+            continue
 
     def __add__(self, other):
         result = SnailfishNumber([self, other])

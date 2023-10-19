@@ -60,6 +60,7 @@ class API:
             soup = bs4.BeautifulSoup(html, "html.parser")
             for article in soup.find_all("article"):
                 return html2markdown.convert(article.renderContents())
+        return None
 
     def stars_of_year(self, year):
         result = {}

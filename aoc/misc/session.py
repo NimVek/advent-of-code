@@ -52,6 +52,7 @@ class CachedSession(Session):
                 with cache_file.open("w") as f:
                     f.write(result)
             return result
+        return None
 
     def purge(self, url):
         __log__.info("Purge URL %s", url)

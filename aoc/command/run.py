@@ -45,7 +45,7 @@ def cmd_run(args):
     ps = pstats.Stats(func.__profile__, stream=s).strip_dirs().sort_stats("cumulative")
     ps.print_stats(30)
     print(s.getvalue())
-    print("The Answer is %s" % repr(result))
+    print(f"The Answer is {result!r}")
 
 
 def cmd_answer(args):
@@ -74,17 +74,17 @@ def cmd_answer(args):
             termcolor.cprint(result.split(". ")[0] + ".", "red")
             until = datetime.datetime.now() + datetime.timedelta(seconds=60)
         elif result.startswith("You gave an answer too recently;"):
-            # you have to wait after submitting an answer before trying again. You have 29s left to wait."):
+            # you have to wait after submitting an answer before trying again.
+            # You have 29s left to wait."):
             termcolor.cprint(result.split("; ")[0] + ";", "red")
             delay = result.split(". ")[1] + "."
             m = re.match("You have (?P<delay>.*) left to wait.", delay)
             if m:
                 until = dateparser.parse("in " + m.group("delay"))
         if isinstance(until, datetime.datetime):
-            until = "Until %s" % until.isoformat(timespec="seconds")
+            until = f"Until {until.isoformat(timespec='seconds')}"
         print(
-            "You have to wait after submitting an answer before trying again. (%s)"
-            % until
+            f"You have to wait after submitting an answer before trying again. ({until})"
         )
 
 
