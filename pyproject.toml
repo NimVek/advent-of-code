@@ -2,6 +2,9 @@
 build-backend = "poetry.masonry.api"
 requires = ["poetry>=0.12"]
 
+[tool.bandit]
+exclude_dirs = ["2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "dev", "tests"]
+
 [tool.black]
 line-length = 88
 
@@ -78,6 +81,9 @@ log_cli_level = "DEBUG"
 norecursedirs = [".*", "template"]
 python_files = ["test_*.py"]
 timeout = 60
+
+[tool.ruff]
+extend-exclude = ["2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022"]
 
 [tool.tomlsort]
 overrides."tool.*".inline_arrays = false

@@ -13,4 +13,4 @@ from .solution import Solution
 def test(part, answer):
     data = None
 
-    assert Solution.solve(part, data) == answer
+    assert Solution.solve(part, data) == answer  # nosec assert_used
