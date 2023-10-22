@@ -3,6 +3,7 @@ import contextlib
 import datetime
 import pathlib
 import re
+import zoneinfo
 
 import git
 import platformdirs
@@ -68,7 +69,7 @@ def setup_parser(parser):
         required=not cookie,
     )
 
-    now = datetime.datetime.now()
+    now = datetime.datetime.now(tz=zoneinfo.ZoneInfo("EST"))
     if now.month < 12:
         year = now.year - 1
         day = 25
