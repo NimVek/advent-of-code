@@ -19,11 +19,13 @@ import logging
 __log__ = logging.getLogger(__name__)
 
 
-def run_parameter(path, part):
-    sys.path.append(str(path))
+def run_parameter(path, part, input_file):
+    sys.path.insert(0, str(path))
 
-    with open(path / "input") as f:
-        data = f.read().strip()
+    input_file = input_file or path / "input"
+
+    with open(input_file) as f:
+        data = f.read()
     data = aoc.lib.parse.parse_blocks(data)
     solution = importlib.import_module("solution")
     data = solution.Solution.prepare(data)
@@ -38,7 +40,7 @@ def run(path, part):
 
 
 def cmd_run(args):
-    func, data = run_parameter(args.current, args.part.value)
+    func, data = run_parameter(args.current, args.part.value, args.input)
     func = aoc.lib.profile.profile(func)
     result = func(data)
     s = io.StringIO()
@@ -70,7 +72,7 @@ def cmd_answer(args):
     ):
         termcolor.cprint(result.split("? ")[0] + "?", "yellow")
     else:
-        if result.startswith("That's not the right answer."):
+        if result.startswith("That's not the right answer"):
             termcolor.cprint(result.split(". ")[0] + ".", "red")
             until = datetime.datetime.now() + datetime.timedelta(seconds=60)
         elif result.startswith("You gave an answer too recently;"):
@@ -81,6 +83,8 @@ def cmd_answer(args):
             m = re.match("You have (?P<delay>.*) left to wait.", delay)
             if m:
                 until = dateparser.parse("in " + m.group("delay"))
+        else:
+            __log__.error("Unrecognised result: %s", result)
         if isinstance(until, datetime.datetime):
             until = f"Until {until.isoformat(timespec='seconds')}"
         print(
@@ -102,6 +106,12 @@ def setup_parser(parent_parser):
     parser.set_defaults(func=cmd_run)
 
     add_part_argument(parser)
+
+    parser.add_argument(
+        "input",
+        nargs="?",
+        type=str,
+    )
 
     parser = parent_parser.add_parser("answer")
     parser.set_defaults(func=cmd_answer)
