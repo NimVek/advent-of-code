@@ -12,59 +12,66 @@ import logging
 __log__ = logging.getLogger(__name__)
 
 
-class API:
-    def __init__(self, cookie, cache_dir):
-        self.session = session.CachedSession(
-            cache_dir=cache_dir, base="https://adventofcode.com"
+class Puzzle:
+    def __init__(self, session, year: int, day: int):
+        self.session = session
+        self.year = year
+        self.day = day
+
+    @property
+    def __soup(self):
+        return bs4.BeautifulSoup(
+            self.session.request("GET", f"{self.year}/day/{self.day}"),
+            features="html.parser",
         )
-        self.session.cookies.set("session", cookie, domain="adventofcode.com")
 
-    def _request(self, method, suffix, data=None):
-        return self.session.request(method, suffix, data=data)
+    @property
+    def title(self):
+        return self.__soup.h2.text.strip("-").split(":")[1].strip()
 
-    def purge(self, year, day):
-        self.session.purge(f"{year}/day/{day}/input")
-        self.session.purge(f"{year}/day/{day}")
-        self.session.purge(f"{year}")
-        self.session.purge("events")
+    @property
+    def input(self):
+        return self.session.request("GET", f"{self.year}/day/{self.day}/input")
 
-    def data(self, year, day):
-        return self._request("GET", f"{year}/day/{day}/input")
+    @property
+    def missions(self):
+        return tuple(
+            html2markdown.convert(article.renderContents())
+            for article in self.__soup("article")
+        )
 
-    def mission(self, year, day):
-        result = []
-        html = self._request("GET", f"{year}/day/{day}")
-        if html:
-            soup = bs4.BeautifulSoup(html, "html.parser")
-            for article in soup.find_all("article"):
-                result.append(html2markdown.convert(article.renderContents()))
-        return "\n\n".join(result)
+    @property
+    def answers(self):
+        return tuple(
+            answer.code.text
+            for answer in self.__soup.main("p", recursive=False)
+            if answer.text.startswith("Your puzzle answer was")
+        )
 
-    def answers(self, year, day):
-        result = []
-        html = self._request("GET", f"{year}/day/{day}")
-        if html:
-            soup = bs4.BeautifulSoup(html, "html.parser")
-            for answer in soup.find_all("p"):
-                if answer.text.startswith("Your puzzle answer was"):
-                    for code in answer.find_all("code"):
-                        result.append(code.text)
-        return result
-
-    def answer(self, year, day, level, answer):
-        html = self._request(
-            "POST", f"{year}/day/{day}/answer", {"level": level, "answer": answer}
+    def answer(self, level, answer):
+        html = self.session.request(
+            "POST",
+            f"{self.year}/day/{self.day}/answer",
+            {"level": level, "answer": answer},
         )
         __log__.debug(html)
-        if html:
-            soup = bs4.BeautifulSoup(html, "html.parser")
-            for article in soup.find_all("article"):
-                return html2markdown.convert(article.renderContents())
-        return None
+        soup = bs4.BeautifulSoup(html, features="html.parser")
+        return html2markdown.convert(soup.article.renderContents())
+
+    def purge(self):
+        self.session.purge(f"{self.year}/day/{self.day}/input")
+        self.session.purge(f"{self.year}/day/{self.day}")
+        self.session.purge(f"{self.year}")
+        self.session.purge("events")
+
+
+class User:
+    def __init__(self, session):
+        self.session = session
 
     def stars_of_year(self, year):
         result = {}
-        html = self._request("GET", f"{year}")
+        html = self.session.request("GET", f"{year}")
         if html:
             soup = bs4.BeautifulSoup(html, "html.parser")
             p = re.compile(r"Day (?P<day>\d+)(, (?P<stars>one|two))?")
@@ -79,7 +86,7 @@ class API:
 
     def stars(self, verbose=False):
         result = {}
-        html = self._request("GET", "events")
+        html = self.session.request("GET", "events")
         if html:
             soup = bs4.BeautifulSoup(html, "html.parser")
             p = re.compile(r"\[(?P<year>\d+)\]\s+((?P<stars>\d+)\*)?")
@@ -91,8 +98,32 @@ class API:
                     result[year] = self.stars_of_year(year) if verbose else stars
         return result
 
+    def purge(self):
+        for year in range(2015, 2024):
+            self.session.purge(f"{year}")
+        self.session.purge("events")
+
+    def Puzzle(self, year, day):
+        return Puzzle(self.session, year, day)
+
+
+class API:
+    def __init__(self, cookie, cache_dir):
+        self.session = session.CachedSession(
+            cache_dir=cache_dir, base="https://adventofcode.com"
+        )
+        self.session.cookies.set("session", cookie, domain="adventofcode.com")
+
+    def _request(self, method, suffix, data=None):
+        return self.session.request(method, suffix, data=data)
+
+    def User(self):
+        return User(self.session)
+
     def initialize(self, base, year, day, update=False, force=False):
         update = update or force
+
+        puzzle = self.User().Puzzle(year, day)
 
         year_path = base / f"y{year}"
         year_path.mkdir(parents=True, exist_ok=True)
@@ -108,7 +139,9 @@ class API:
         init = day_path / "__init__.py"
         if not init.is_file() or update:
             with open(init, "w") as f:
-                pass
+                f.write(
+                    f'__year__ = {year}\n__day__ = {day}\n__title__ = "{puzzle.title}"\n'
+                )
 
         solution = day_path / "solution.py"
         if not solution.is_file() or force:
@@ -127,22 +160,22 @@ class API:
         readme = day_path / "README.md"
         if not readme.is_file() or update:
             with open(readme, "w") as f:
-                f.write(self.mission(year, day))
+                f.write("\n\n".join(puzzle.missions) + "\n")
 
         data = day_path / "input"
         if not data.is_file() or update:
             with open(data, "w") as f:
-                f.write(self.data(year, day))
+                f.write(puzzle.input)
 
         answers = day_path / "answers"
         if not answers.is_file() or update:
-            content = self.answers(year, day)
+            content = puzzle.answers
             if content:
                 with open(answers, "w") as f:
                     f.write("\n".join(content) + "\n")
 
     def update_readme(self, base, events=None):
-        events = events or self.stars()
+        events = events or self.User().stars()
 
         readme = base / "README.md"
         with open(readme) as f:

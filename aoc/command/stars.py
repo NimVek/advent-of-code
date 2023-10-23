@@ -7,7 +7,7 @@ __log__ = logging.getLogger(__name__)
 
 
 def cmd_stars(args):
-    events = args.api.stars(verbose=True)
+    events = args.api.User().stars(verbose=True)
     __log__.debug(events)
 
     args.api.update_readme(args.base, events)

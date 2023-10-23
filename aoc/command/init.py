@@ -6,7 +6,7 @@ __log__ = logging.getLogger(__name__)
 
 def cmd_init(args):
     if args.force:
-        args.api.purge(args.year, args.day)
+        args.api.User().Puzzle(args.year, args.day).purge()
     args.api.initialize(args.base, args.year, args.day, force=args.force)
 
 

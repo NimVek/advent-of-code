@@ -59,10 +59,11 @@ def cmd_answer(args):
         args.day,
         args.part.value,
     )
-    result = args.api.answer(args.year, args.day, args.part.value, answer)
+    puzzle = args.api.User().Puzzle(args.year, args.day)
+    result = puzzle.answer(args.part.value, answer)
     if result.startswith("That's the right answer!"):
         termcolor.cprint(result.split("! ")[0] + "!", "green")
-        args.api.purge(args.year, args.day)
+        puzzle.purge()
         args.api.update_readme(args.base)
         args.api.initialize(args.base, args.year, args.day, update=True)
         if args.part == Level.TWO and args.day < 25:
