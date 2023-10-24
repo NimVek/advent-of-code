@@ -122,6 +122,7 @@ repos:
   - repo: local
     hooks:
       - id: pytest
+        stages: [push]
         name: pytest
         entry: pytest
         language: system
