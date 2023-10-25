@@ -19,7 +19,7 @@ import logging
 __log__ = logging.getLogger(__name__)
 
 
-def run_parameter(path, part, input_file):
+def run_parameter(path, part, input_file=None):
     sys.path.insert(0, str(path))
 
     input_file = input_file or path / "input"
@@ -73,6 +73,7 @@ def cmd_answer(args):
     ):
         termcolor.cprint(result.split("? ")[0] + "?", "yellow")
     else:
+        until = None
         if result.startswith("That's not the right answer"):
             termcolor.cprint(result.split(". ")[0] + ".", "red")
             until = datetime.datetime.now() + datetime.timedelta(seconds=60)
