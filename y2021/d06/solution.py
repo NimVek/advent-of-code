@@ -1,8 +1,11 @@
+import functools
+
+from collections import Counter, defaultdict
+
 from aoc.lib.solution import SolutionBase
 
 import logging
-from collections import Counter, defaultdict
-import functools
+
 
 __all__ = ["Solution"]
 __log__ = logging.getLogger(__name__)
