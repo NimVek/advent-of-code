@@ -49,8 +49,7 @@ class Puzzle:
         )
 
     def answer(self, level, answer):
-        html = self.session.request(
-            "POST",
+        html = self.session.post(
             f"{self.year}/day/{self.day}/answer",
             {"level": level, "answer": answer},
         )
