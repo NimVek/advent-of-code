@@ -66,8 +66,8 @@ class Solution(SolutionBase):
         )
 
     @staticmethod
-    def generic(data, submarine_cls):
-        submarine = submarine_cls()
+    def generic(data, submarine):
+        submarine = submarine()
         for instruction in data:
             getattr(submarine, instruction.direction)(instruction.units)
         return submarine.distance()
