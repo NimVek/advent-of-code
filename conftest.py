@@ -14,10 +14,21 @@ import logging
 __log__ = logging.getLogger(__name__)
 
 
+@pytest.hookimpl
 def pytest_collect_file(file_path, parent):
     if re.search(r"/y[0-9]{4,}/d(0[1-9]|1[0-9]|2[0-5])/__init__\.py", str(file_path)):
         return AOCPuzzle.from_parent(parent, path=file_path)
     return None
+
+
+@pytest.hookimpl
+def pytest_configure(config):
+    for year in range(2015, 2023):
+        config.addinivalue_line("markers", f"y{year}: https://adventofcode.com/{year}")
+    for day in range(1, 26):
+        config.addinivalue_line(
+            "markers", f"d{day:02d}: https://adventofcode.com/*/day/{day:02d}"
+        )
 
 
 class Case:
@@ -72,6 +83,8 @@ class Answer(Case):
 
 class AOCPuzzle(pytest.Module):
     def collect(self):
+        self.add_marker(getattr(pytest.mark, f"y{self.year}"))
+        self.add_marker(getattr(pytest.mark, f"d{self.day:02d}"))
         self.cases = [Case(path) for path in self.path.parent.glob("cases/*.txt")]
         data = self.path.parent / "input"
         if data.is_file():
@@ -141,6 +154,8 @@ class AOCPart(pytest.Function):
         super().__init__(**kwargs)
         self.data = data
         self.answer = answer
+        for mark in getattr(self.function, "marker", []):
+            self.add_marker(getattr(pytest.mark, mark))
 
     @property
     def puzzle(self):
@@ -161,9 +176,10 @@ class AOCPart(pytest.Function):
         return super().repr_failure(excinfo)
 
     def reportinfo(self):
+        path, line, _name = super().reportinfo()
         return (
-            "filename",
-            None,
+            path,
+            line,
             f"{self.puzzle.year} Day {self.puzzle.day}: {self.puzzle.title}",
         )
 
