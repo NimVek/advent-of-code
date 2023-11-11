@@ -192,7 +192,7 @@ class AOCPart(pytest.Function):
             fun = get_real_func(self.obj)
             # get_real_func not unwrap partial functions
             while getattr(fun, "__wrapped__", None):
-                fun = getattr(fun, "__wrapped__")
+                fun = fun.__wrapped__
             code = Code.from_function(fun)
             path, firstlineno = code.path, code.firstlineno
             traceback = excinfo.traceback
@@ -207,14 +207,16 @@ class AOCPart(pytest.Function):
 
             # issue364: mark all but first and last frames to
             # only show a single-line message for each frame.
-            if self.config.getoption("tbstyle", "auto") == "auto":
-                if len(ntraceback) > 2:
-                    ntraceback = Traceback(
-                        entry
-                        if i in [0, len(ntraceback) - 1]
-                        else entry.with_repr_style("short")
-                        for i, entry in enumerate(ntraceback)
-                    )
+            if (
+                self.config.getoption("tbstyle", "auto") == "auto"
+                and len(ntraceback) > 2
+            ):
+                ntraceback = Traceback(
+                    entry
+                    if i in [0, len(ntraceback) - 1]
+                    else entry.with_repr_style("short")
+                    for i, entry in enumerate(ntraceback)
+                )
             ntraceback = Traceback(entry for i, entry in enumerate(ntraceback))
 
             return ntraceback

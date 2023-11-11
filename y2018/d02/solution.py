@@ -30,6 +30,7 @@ class Solution(SolutionBase):
                 if common in seen:
                     return common
                 seen.add(common)
+        return None
 
 
 if __name__ == "__main__":

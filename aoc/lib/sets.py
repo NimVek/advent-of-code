@@ -47,6 +47,7 @@ class Interval(tuple):
         )
         if infimum <= supremum:
             return Interval(infimum, supremum)
+        return None
 
     intersection = __and__
 
@@ -82,9 +83,13 @@ class Interval(tuple):
             return NotImplemented
         return self.__ge__(other) and self.__ne__(other)
 
+    def __hash__(self):
+        return super().__hash__(self)
+
 
 class IntervalSet:
-    def _simplify(self, components):
+    @staticmethod
+    def _simplify(components):
         components = sorted(components, key=operator.attrgetter("infimum"))
         result = []
         for component in components:
@@ -95,7 +100,7 @@ class IntervalSet:
         return result
 
     def __init__(self, *elements):
-        self.elements = self._simplify(Interval(e) for e in elements)
+        self.elements = tuple(self._simplify(Interval(e) for e in elements))
 
     def __repr__(self):
         return (
@@ -142,3 +147,11 @@ class IntervalSet:
                 if a.infimum <= b.supremum < a.supremum:
                     result.append(Interval((b.supremum + 1, a.supremum)))
         return IntervalSet(*result)
+
+    def __eq__(self, other):
+        if not isinstance(other, IntervalSet):
+            return NotImplemented
+        return all(s == o for s, o in zip(self.elements, other.elements))
+
+    def __hash__(self):
+        return super().__hash__(self.elements)
