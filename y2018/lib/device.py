@@ -44,37 +44,44 @@ class ImmediateRegister(OpCode):
 
 
 class Addition(OpCode):
-    def operation(self, A, B):
+    @staticmethod
+    def operation(A, B):
         return A + B
 
 
 class Multiplication(OpCode):
-    def operation(self, A, B):
+    @staticmethod
+    def operation(A, B):
         return A * B
 
 
 class BitwiseAnd(OpCode):
-    def operation(self, A, B):
+    @staticmethod
+    def operation(A, B):
         return A & B
 
 
 class BitwiseOr(OpCode):
-    def operation(self, A, B):
+    @staticmethod
+    def operation(A, B):
         return A | B
 
 
 class Assignment(OpCode):
-    def operation(self, A, _):
+    @staticmethod
+    def operation(A, _):
         return A
 
 
 class GreaterThan(OpCode):
-    def operation(self, A, B):
+    @staticmethod
+    def operation(A, B):
         return 1 if A > B else 0
 
 
 class Equal(OpCode):
-    def operation(self, A, B):
+    @staticmethod
+    def operation(A, B):
         return 1 if A == B else 0
 
 

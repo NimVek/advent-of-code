@@ -81,7 +81,7 @@ class Solution(SolutionBase):
         investigate = collections.defaultdict(lambda: set(Device.opcodes))
         for sample in Solution.test_samples(data.samples):
             investigate[sample.code] &= sample.opportunities
-        translate = dict()
+        translate = {}
         while investigate:
             translate.update(
                 {

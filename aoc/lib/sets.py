@@ -12,7 +12,7 @@ class Interval(tuple):
     def __new__(cls, infimum, supremum=None, step=1):
         if isinstance(infimum, Interval):
             return infimum
-        elif isinstance(infimum, Iterable):
+        if isinstance(infimum, Iterable):
             infimum, *_, supremum = infimum
         result = tuple.__new__(cls, (infimum, supremum or infimum))
         result.step = step
@@ -27,11 +27,9 @@ class Interval(tuple):
         return self[-1]
 
     def __contains__(self, other):
-        if not self:
-            return False
         if isinstance(other, int):
             return self.infimum <= other <= self.supremum
-        elif isinstance(other, Interval):
+        if isinstance(other, Interval):
             return other <= self
         return NotImplemented
 
@@ -110,7 +108,7 @@ class IntervalSet:
     def __contains__(self, other):
         if isinstance(other, (int, Interval)):
             return any(other in element for element in self.elements)
-        elif isinstance(other, IntervalSet):
+        if isinstance(other, IntervalSet):
             return all(any(o in s for s in self.elements) for o in other.elements)
         return NotImplemented
 
