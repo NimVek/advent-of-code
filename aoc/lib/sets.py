@@ -1,6 +1,6 @@
 import operator
 
-from collection.abc import Iterable
+from collections.abc import Iterable
 
 import logging
 
@@ -92,7 +92,7 @@ class IntervalSet:
         for component in components:
             if not result or component.infimum > result[-1].supremum + 1:
                 result.append(component)
-            else:
+            elif component.supremum > result[-1].supremum:
                 result[-1] = Interval((result[-1].infimum, component.supremum))
         return result
 
