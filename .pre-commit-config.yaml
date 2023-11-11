@@ -79,7 +79,7 @@ repos                     :
         additional_dependencies: [toml]
 
   - repo: https://github.com/psf/black
-    rev: 23.10.1
+    rev: 23.11.0
     hooks:
       - id: black
 
@@ -109,7 +109,7 @@ repos                     :
         args: [--all, --in-place]
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.1.2
+    rev: v0.1.5
     hooks:
       - id: ruff
 
