@@ -9,7 +9,13 @@ IGNORED = ["python"]
 
 
 def poerty_add(dependency, args):
-    subprocess.run(["poetry", "add", *args, dependency + "@latest"], check=True)
+    try:
+        subprocess.run(["poetry", "add", *args, dependency + "@latest"], check=True)
+    except subprocess.CalledProcessError as e:
+        if e.returncode == 1:
+            print(f"Update of {dependency} failed.")
+        else:
+            raise e
 
 
 def update_dependencies(dependencies, args=None):
