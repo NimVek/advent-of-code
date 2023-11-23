@@ -4,6 +4,7 @@ import functools
 from dataclasses import dataclass
 from math import prod
 
+from aoc.lib.algorithms import possibilities_to_dict
 from aoc.lib.sets import IntervalSet
 from aoc.lib.solution import SolutionBase
 
@@ -57,20 +58,7 @@ class Solution(SolutionBase):
                     idx for idx, value in enumerate(ticket) if value in values
                 }
 
-        translate = {}
-        while investigate:
-            translate.update(
-                {
-                    code: opcodes.pop()
-                    for code, opcodes in investigate.items()
-                    if len(opcodes) == 1
-                }
-            )
-            investigate = {
-                code: opcodes - set(translate.values())
-                for code, opcodes in investigate.items()
-                if len(opcodes) > 1
-            }
+        translate = possibilities_to_dict(investigate)
 
         return prod(
             data.own[idx]
