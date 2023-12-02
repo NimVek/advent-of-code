@@ -1,3 +1,4 @@
+import datetime
 import re
 
 from functools import cached_property
@@ -23,7 +24,7 @@ def pytest_collect_file(file_path, parent):
 
 @pytest.hookimpl
 def pytest_configure(config):
-    for year in range(2015, 2023):
+    for year in range(2015, datetime.date.today().year + 1):
         config.addinivalue_line("markers", f"y{year}: https://adventofcode.com/{year}")
     for day in range(1, 26):
         config.addinivalue_line(
@@ -46,8 +47,14 @@ class Case:
     def filename(self):
         return self.path.name
 
+    @cached_property
+    def answers(self):
+        return [x or None for x in self.filename.split(".")[1:-1]]
+
     def answer(self, idx):
-        return self.filename.split(".")[idx] or None
+        if idx <= len(self.answers):
+            return self.answers[idx - 1]
+        return None
 
     @property
     def name(self):
@@ -70,11 +77,6 @@ class Answer(Case):
             with open(path) as f:
                 answers = f.read().splitlines()
         return answers
-
-    def answer(self, idx):
-        if idx <= len(self.answers):
-            return self.answers[idx - 1]
-        return None
 
     @property
     def name(self):
