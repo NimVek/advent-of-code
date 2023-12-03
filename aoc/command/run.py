@@ -61,12 +61,17 @@ def cmd_answer(args):
     )
     puzzle = args.api.User().Puzzle(args.year, args.day)
     result = puzzle.answer(args.part.value, answer)
+    now = datetime.datetime.now()
     if result.startswith("That's the right answer!"):
         termcolor.cprint(result.split("! ")[0] + "!", "green")
         puzzle.purge()
         args.api.update_readme(args.base)
         args.api.initialize(args.base, args.year, args.day, update=True)
-        if args.part == Level.TWO and args.day < 25:
+        if (
+            args.part == Level.TWO
+            and args.day < 25
+            and (args.year < now.year or args.day < now.day)
+        ):
             args.api.initialize(args.base, args.year, args.day + 1)
     elif result.startswith(
         "You don't seem to be solving the right level. Did you already complete it?"
@@ -76,7 +81,7 @@ def cmd_answer(args):
         until = None
         if result.startswith("That's not the right answer"):
             termcolor.cprint(result.split(". ")[0] + ".", "red")
-            until = datetime.datetime.now() + datetime.timedelta(seconds=60)
+            until = now + datetime.timedelta(seconds=60)
         elif result.startswith("You gave an answer too recently;"):
             # you have to wait after submitting an answer before trying again.
             # You have 29s left to wait."):
