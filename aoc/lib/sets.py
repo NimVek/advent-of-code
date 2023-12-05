@@ -9,12 +9,12 @@ __log__ = logging.getLogger(__name__)
 
 
 class Interval(tuple):
-    def __new__(cls, infimum, supremum=None, step=1):
+    def __new__(cls, infimum, supremum=None, length=1, step=1):
         if isinstance(infimum, Interval):
             return infimum
         if isinstance(infimum, Iterable):
             infimum, *_, supremum = infimum
-        result = tuple.__new__(cls, (infimum, supremum or infimum))
+        result = tuple.__new__(cls, (infimum, supremum or (infimum + length - step)))
         result.step = step
         return result
 
@@ -50,6 +50,16 @@ class Interval(tuple):
         return None
 
     intersection = __and__
+
+    def __add__(self, other):
+        if not isinstance(other, int):
+            return NotImplemented
+        return Interval(self.infimum + other, self.supremum + other)
+
+    def __sub__(self, other):
+        if not isinstance(other, int):
+            return NotImplemented
+        return Interval(self.infimum - other, self.supremum - other)
 
     def isdisjoint(self, other):
         return not self.__and__(other)
@@ -138,15 +148,24 @@ class IntervalSet:
                     result.append(Interval((infimum, supremum)))
         return IntervalSet(*result)
 
+    def __add__(self, other):
+        if not isinstance(other, int):
+            return NotImplemented
+        return IntervalSet(*(e + other for e in self.elements))
+
     def __sub__(self, other):
-        result = []
-        for a in self.elements:
-            for b in other.elements:
-                if a.infimum < b.infimum <= a.supremum:
-                    result.append(Interval((a.infimum, b.infimum - 1)))
-                if a.infimum <= b.supremum < a.supremum:
-                    result.append(Interval((b.supremum + 1, a.supremum)))
-        return IntervalSet(*result)
+        if isinstance(other, int):
+            return IntervalSet(*(e - other for e in self.elements))
+        if isinstance(other, IntervalSet):
+            result = []
+            for a in self.elements:
+                for b in other.elements:
+                    if a.infimum < b.infimum <= a.supremum:
+                        result.append(Interval((a.infimum, b.infimum - 1)))
+                    if a.infimum <= b.supremum < a.supremum:
+                        result.append(Interval((b.supremum + 1, a.supremum)))
+            return IntervalSet(*result)
+        return NotImplemented
 
     def __eq__(self, other):
         if not isinstance(other, IntervalSet):
