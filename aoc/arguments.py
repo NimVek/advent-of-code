@@ -1,14 +1,13 @@
 import argparse
 import contextlib
-import datetime
 import pathlib
 import re
-import zoneinfo
 
 import git
 import platformdirs
 
 from aoc import command
+from aoc.misc.date import today
 
 from . import __about__
 
@@ -69,13 +68,12 @@ def setup_parser(parser):
         required=not cookie,
     )
 
-    now = datetime.datetime.now(tz=zoneinfo.ZoneInfo("EST"))
-    if now.month < 12:
-        year = now.year - 1
+    if today.month < 12:
+        year = today.year - 1
         day = 25
     else:
-        year = now.year
-        day = min(now.day, 25)
+        year = today.year
+        day = min(today.day, 25)
     max_year = year
     cwd = pathlib.Path.cwd()
     p = re.compile(r"/y(?P<year>\d+)(/d(?P<day>\d{2})(/|$))?")
