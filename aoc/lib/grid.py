@@ -16,8 +16,8 @@ class VectorEnum(Vector, enum.Enum):
 
 
 class Direction2D(VectorEnum):
-    NORTH = N = Vector(1, 0)
-    SOUTH = S = Vector(-1, 0)
+    NORTH = N = Vector(-1, 0)
+    SOUTH = S = Vector(1, 0)
     EAST = E = Vector(0, 1)
     WEST = W = Vector(0, -1)
     UP = U = NORTH
@@ -31,7 +31,7 @@ class MatrixEnum(Matrix, enum.Enum):
 
 
 class Rotation2D(MatrixEnum):
-    CLOCKWISE = CW = Matrix((0, -1), (1, 0))
-    COUNTERCLOCKWISE = CCW = Matrix((0, 1), (-1, 0))
+    CLOCKWISE = CW = Matrix((0, 1), (-1, 0))
+    COUNTERCLOCKWISE = CCW = Matrix((0, -1), (1, 0))
     RIGHT = R = CLOCKWISE
     LEFT = L = COUNTERCLOCKWISE
