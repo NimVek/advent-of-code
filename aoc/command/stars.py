@@ -1,3 +1,6 @@
+import contextlib
+
+import git
 import termcolor
 
 import logging
@@ -12,6 +15,10 @@ def cmd_stars(args):
 
     args.api.update_readme(args.base, events)
 
+    repo = None
+    with contextlib.suppress(git.InvalidGitRepositoryError):
+        repo = git.Repo(args.base)
+
     for year, days in sorted(events.items()):
         print(year, end=" ")
         if isinstance(days, int):
@@ -24,6 +31,10 @@ def cmd_stars(args):
                 attributes = (
                     [] if solution.is_file() or stars in [0, 3] else ["reverse"]
                 )
+                if repo:
+                    with contextlib.suppress(KeyError):
+                        repo.commit().tree[f"y{year}/d{day:02}/solution.py"]
+                        attributes.append("bold")
                 termcolor.cprint(f"{day:2}", colour, attrs=attributes, end=" ")
             print()
 
