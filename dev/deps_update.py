@@ -28,6 +28,5 @@ def update_dependencies(dependencies, args=None):
 
 project = toml.load("pyproject.toml")
 update_dependencies(project["tool"]["poetry"]["dependencies"])
-update_dependencies(
-    project["tool"]["poetry"]["group"]["dev"]["dependencies"], ["--group=dev"]
-)
+for group, content in project["tool"]["poetry"]["group"].items():
+    update_dependencies(content.get("dependencies", []), [f"--group={group}"])

@@ -58,6 +58,15 @@ def setup_parser(parser):
         ), open(repo / ".session") as f:
             cookie = f.read().strip()
 
+    if not cookie:
+        with contextlib.suppress(ModuleNotFoundError):
+            import browser_cookie3
+
+            for c in browser_cookie3.load(domain_name=".adventofcode.com"):
+                if c.name == "session":
+                    cookie = c.value
+                    break
+
     parser.add_argument(
         "-c",
         "--cookie",

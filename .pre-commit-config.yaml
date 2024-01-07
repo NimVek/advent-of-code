@@ -109,7 +109,7 @@ repos                     :
         args: [--all, --in-place]
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.1.9
+    rev: v0.1.11
     hooks:
       - id: ruff
 
