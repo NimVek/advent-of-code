@@ -1,4 +1,5 @@
 """Helper to determine to correct Python and OS version."""
+
 import platform
 import sys
 
@@ -47,5 +48,5 @@ def os():
 
 
 with open(sys.argv[1], "a") as f:
-    f.write(f"PYTHON={platform.python_version()!r}\n")
-    f.write(f"OS={os()!r}\n")
+    f.write(f"PYTHON={platform.python_version()}\n")
+    f.write(f"OS={os()}\n")

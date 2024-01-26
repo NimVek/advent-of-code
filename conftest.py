@@ -214,9 +214,11 @@ class AOCPart(pytest.Function):
                 and len(ntraceback) > 2
             ):
                 ntraceback = Traceback(
-                    entry
-                    if i in [0, len(ntraceback) - 1]
-                    else entry.with_repr_style("short")
+                    (
+                        entry
+                        if i in [0, len(ntraceback) - 1]
+                        else entry.with_repr_style("short")
+                    )
                     for i, entry in enumerate(ntraceback)
                 )
             ntraceback = Traceback(entry for i, entry in enumerate(ntraceback))

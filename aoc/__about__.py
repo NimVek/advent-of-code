@@ -1,4 +1,5 @@
 """Provides aoc various information."""
+
 from ._version import __version__ as version
 
 

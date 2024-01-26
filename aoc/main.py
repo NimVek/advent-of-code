@@ -13,6 +13,7 @@ problems: the code will get executed twice:
 
 Also see (1) from http://click.pocoo.org/5/setuptools/#setuptools-integration
 """
+
 from __future__ import annotations
 
 import argparse

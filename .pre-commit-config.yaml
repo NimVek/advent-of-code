@@ -79,7 +79,7 @@ repos                     :
         additional_dependencies: [toml]
 
   - repo: https://github.com/psf/black
-    rev: 23.12.1
+    rev: 24.1.0
     hooks:
       - id: black
 
@@ -109,12 +109,12 @@ repos                     :
         args: [--all, --in-place]
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.1.13
+    rev: v0.1.14
     hooks:
       - id: ruff
 
   - repo: https://github.com/pycqa/bandit
-    rev: 1.7.6
+    rev: 1.7.7
     hooks:
       - id: bandit
         args: [-c, pyproject.toml]

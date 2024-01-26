@@ -1,4 +1,5 @@
 """Tests for `aoc` package."""
+
 import pytest
 
 from aoc import main
