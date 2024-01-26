@@ -71,7 +71,7 @@ requests = "^2.31.0"
 termcolor = "^2.4.0"
 
 [tool.poetry.group.dev.dependencies]
-black = "^23.12.1"
+black = "^24.1.0"
 ipython = "^8.20.0"
 mypy = "^1.8.0"
 pre-commit = "^3.6.0"
