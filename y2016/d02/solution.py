@@ -32,7 +32,7 @@ class StandardLayout:
     @property
     def button(self):
         __log__.debug(self.position)
-        return str(5 + self.position.dot(Vector(-3, 1)))
+        return str(5 + self.position.dot(Vector(3, 1)))
 
 
 class DiamondLayout:
@@ -58,7 +58,7 @@ class DiamondLayout:
     @property
     def button(self):
         __log__.debug(self.position)
-        return DiamondLayout.LAYOUT[2 - self.position[0]][2 + self.position[1]]
+        return DiamondLayout.LAYOUT[2 + self.position[0]][2 + self.position[1]]
 
 
 class Solution(SolutionBase):

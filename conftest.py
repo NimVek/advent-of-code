@@ -58,7 +58,7 @@ class Case:
 
     @property
     def name(self):
-        return self.answer(0)
+        return self.filename.split(".")[0]
 
 
 class Answer(Case):
