@@ -1,12 +1,13 @@
 """Helper to determine to correct Python and OS version."""
 
+import contextlib
 import os
 import platform
 
 
 def get_os():
     if platform.system() == "Linux":
-        try:
+        with contextlib.supress(Exception):
             import subprocess
 
             return subprocess.run(
@@ -16,8 +17,6 @@ def get_os():
                 check=False,
                 text=True,
             ).stdout.splitlines()[0]
-        except Exception:
-            pass
 
     if platform.system() == "Windows":
         versions = {
@@ -31,11 +30,9 @@ def get_os():
             19042: "Windows Server 2019 (20H2)",
             20348: "Windows Server 2022 (21H2)",
         }
-        try:
+        with contextlib.supress(Exception):
             build = int(platform.version().split(".")[-1])
             return versions[build]
-        except Exception:
-            pass
 
     if platform.system() == "Darwin":
         versions = {
@@ -44,12 +41,10 @@ def get_os():
             22: "macOS Ventura",
             23: "macOS Sonoma",
         }
-        try:
+        with contextlib.supress(Exception):
             darwin = int(platform.release().split(".")[0])
             version = platform.platform().split("-")[1]
             return f"{versions[darwin]} ({version})"
-        except Exception:
-            pass
 
     return platform.platform()
 
