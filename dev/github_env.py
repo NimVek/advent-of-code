@@ -49,6 +49,7 @@ def get_os():
     return platform.platform()
 
 
-with open(os.environ["GITHUB_ENV"], "a") as f:
-    f.write(f"PYTHON={platform.python_version()}\n")
-    f.write(f"OS={get_os()}\n")
+for variable in ["GITHUB_ENV", "GITHUB_OUTPUT"]:
+    with open(os.environ[variable], "a") as f:
+        f.write(f"PYTHON={platform.python_version()}\n")
+        f.write(f"OS={get_os()}\n")
