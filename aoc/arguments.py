@@ -59,7 +59,7 @@ def setup_parser(parser):
             cookie = f.read().strip()
 
     if not cookie:
-        with contextlib.suppress(ModuleNotFoundError, KeyError):
+        with contextlib.suppress(ModuleNotFoundError):
             import browser_cookie3
 
             for c in browser_cookie3.load(domain_name=".adventofcode.com"):
