@@ -79,7 +79,8 @@ jobs:
       PYTHON: ${{ matrix.python }}
 
     environment:
-      name: Test (${{ steps.environment.output.OS}}, ${{ steps.environment.output.PYTHON}})
+      name: Test (${{ steps.environment.outputs.OS }}, ${{ steps.environment.outputs.PYTHON
+        }})
 
     steps:
       - name: Checkout
