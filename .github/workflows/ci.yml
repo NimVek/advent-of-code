@@ -78,10 +78,6 @@ jobs:
       OS: ${{ matrix.os }}
       PYTHON: ${{ matrix.python }}
 
-    environment:
-      name: Test (${{ steps.environment.outputs.OS }}, ${{ steps.environment.outputs.PYTHON
-        }})
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
