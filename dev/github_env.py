@@ -7,7 +7,7 @@ import platform
 
 def get_os():
     if platform.system() == "Linux":
-        with contextlib.supress(Exception):
+        with contextlib.suppress(Exception):
             import subprocess
 
             return subprocess.run(
@@ -30,7 +30,7 @@ def get_os():
             19042: "Windows Server 2019 (20H2)",
             20348: "Windows Server 2022 (21H2)",
         }
-        with contextlib.supress(Exception):
+        with contextlib.suppress(Exception):
             build = int(platform.version().split(".")[-1])
             return versions[build]
 
@@ -41,7 +41,7 @@ def get_os():
             22: "macOS Ventura",
             23: "macOS Sonoma",
         }
-        with contextlib.supress(Exception):
+        with contextlib.suppress(Exception):
             darwin = int(platform.release().split(".")[0])
             version = platform.platform().split("-")[1]
             return f"{versions[darwin]} ({version})"
