@@ -37,9 +37,7 @@ def iterate(distances, m):
         m.add(distance["from"], distance["to"], distance["happiness"])
 
 
-import functools
 import itertools
-import sys
 
 
 def calculate(distance, func, init):

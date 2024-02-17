@@ -1,4 +1,3 @@
-import pytest
 import solution_2015_06 as solution
 
 

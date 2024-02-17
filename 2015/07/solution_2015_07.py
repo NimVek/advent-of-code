@@ -12,9 +12,6 @@ class Wire:
         return value
 
 
-import pprint
-
-
 class Int(Wire):
     def __init__(self, value):
         self.value = value

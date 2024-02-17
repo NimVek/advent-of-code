@@ -1,13 +1,8 @@
-import itertools
-import re
-
-
 def parse(string):
     for line in string.splitlines():
         yield int(line.strip())
 
 
-import functools
 import sys
 
 

@@ -1,6 +1,3 @@
-import re
-
-
 class Ingredient:
     pass
 
@@ -38,8 +35,6 @@ def parse(string):
 
 
 import functools
-import itertools
-import sys
 
 
 MAX_SPOON = 100

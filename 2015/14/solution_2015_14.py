@@ -32,9 +32,6 @@ class Race:
         return result
 
 
-import pprint
-
-
 def parse(string):
     for distance in string.splitlines():
         match = re.match(
@@ -47,11 +44,6 @@ def parse(string):
                 int(match.group("fly")),
                 int(match.group("rest")),
             )
-
-
-import functools
-import itertools
-import sys
 
 
 MAX_TIME = 2503

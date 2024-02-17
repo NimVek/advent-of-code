@@ -14,8 +14,6 @@ def parse(string):
 
 
 import functools
-import itertools
-import sys
 
 
 MFCSAM = {
