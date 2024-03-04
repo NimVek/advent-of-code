@@ -1,5 +1,6 @@
 import pytest
-import solution_2015_10 as solution
+
+from .solution import Solution
 
 
 @pytest.mark.parametrize(
@@ -12,5 +13,5 @@ import solution_2015_10 as solution
         ("111221", "312211"),
     ],
 )
-def test_look_and_say(sequence, result):
-    assert solution.look_and_say(sequence) == result
+def test(sequence, result):
+    assert Solution.look_and_say(sequence) == result  # nosec assert_used
