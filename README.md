@@ -1,12 +1,12 @@
 [![AoC 2015](https://img.shields.io/badge/2015-★_36-c5d208)](https://adventofcode.com/2015)
-[![AoC 2016](https://img.shields.io/badge/2016-★_4-ec683f)](https://adventofcode.com/2016)
+[![AoC 2016](https://img.shields.io/badge/2016-★_6-f26e3c)](https://adventofcode.com/2016)
 [![AoC 2017](https://img.shields.io/badge/2017-★_24-bcb01b)](https://adventofcode.com/2017)
 [![AoC 2018](https://img.shields.io/badge/2018-★_9-fb7938)](https://adventofcode.com/2018)
 [![AoC 2019](https://img.shields.io/badge/2019-★_6-f26e3c)](https://adventofcode.com/2019)
-[![AoC 2020](https://img.shields.io/badge/2020-★_10-fe7d37)](https://adventofcode.com/2020)
+[![AoC 2020](https://img.shields.io/badge/2020-★_24-bcb01b)](https://adventofcode.com/2020)
 [![AoC 2021](https://img.shields.io/badge/2021-★_50-44cc11)](https://adventofcode.com/2021)
 [![AoC 2022](https://img.shields.io/badge/2022-★_50-44cc11)](https://adventofcode.com/2022)
-[![AoC 2023](https://img.shields.io/badge/2023-★_0-9f9f9f)](https://adventofcode.com/2023)
+[![AoC 2023](https://img.shields.io/badge/2023-★_50-44cc11)](https://adventofcode.com/2023)
 # advent-of-code
 
 [![GitHub](https://img.shields.io/github/license/NimVek/advent-of-code)](https://github.com/NimVek/advent-of-code/blob/main/LICENSE)
