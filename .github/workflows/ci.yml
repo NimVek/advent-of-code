@@ -113,6 +113,6 @@ jobs:
           poetry run pytest --verbose --numprocesses=auto --cov=. --cov-config=dev/.coveragerc --cov-report=xml
 
       - name: Coverage
-        uses: codecov/codecov-action@v4.6.0
+        uses: codecov/codecov-action@v5.0.7
         with:
           env_vars: OS, PYTHON
