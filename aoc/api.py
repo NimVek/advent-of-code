@@ -2,7 +2,7 @@ import inspect
 import re
 
 import bs4
-import html2markdown
+import pyhtml2md
 
 from aoc.misc import color, session
 
@@ -36,7 +36,7 @@ class Puzzle:
     @property
     def missions(self):
         return tuple(
-            html2markdown.convert(article.renderContents())
+            pyhtml2md.convert(article.renderContents())
             for article in self.__soup("article")
         )
 
@@ -55,7 +55,7 @@ class Puzzle:
         )
         __log__.debug(html)
         soup = bs4.BeautifulSoup(html, features="html.parser")
-        return html2markdown.convert(soup.article.renderContents())
+        return pyhtml2md.convert(soup.article.renderContents())
 
     def purge(self):
         self.session.purge(f"{self.year}/day/{self.day}/input")
