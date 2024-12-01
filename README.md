@@ -7,7 +7,7 @@
 [![AoC 2021](https://img.shields.io/badge/2021-★_50-44cc11)](https://adventofcode.com/2021)
 [![AoC 2022](https://img.shields.io/badge/2022-★_50-44cc11)](https://adventofcode.com/2022)
 [![AoC 2023](https://img.shields.io/badge/2023-★_50-44cc11)](https://adventofcode.com/2023)
-[![AoC 2024](https://img.shields.io/badge/2024-★_0-9f9f9f)](https://adventofcode.com/2024)
+[![AoC 2024](https://img.shields.io/badge/2024-★_2-e66241)](https://adventofcode.com/2024)
 # advent-of-code
 
 [![GitHub](https://img.shields.io/github/license/NimVek/advent-of-code)](https://github.com/NimVek/advent-of-code/blob/main/LICENSE)
