@@ -18,7 +18,7 @@ repos                     :
       - id: detect-private-key
 
   - repo: https://github.com/python-jsonschema/check-jsonschema
-    rev: 0.29.3
+    rev: 0.30.0
     hooks:
       - id: check-dependabot
         args: [--verbose]
@@ -26,7 +26,7 @@ repos                     :
         args: [--verbose]
 
   - repo: https://github.com/pappasam/toml-sort
-    rev: v0.23.1
+    rev: v0.24.2
     hooks:
       - id: toml-sort
         args: [--in-place]
@@ -45,7 +45,7 @@ repos                     :
       - id: python-check-blanket-noqa
 
   - repo: https://github.com/asottile/pyupgrade
-    rev: v3.17.0
+    rev: v3.19.0
     hooks:
       - id: pyupgrade
         args: [--py311-plus]
@@ -68,18 +68,18 @@ repos                     :
         args: [--mapping, '2', --sequence, '4', --offset, '2', --colons, --width, '88']
 
   - repo: https://github.com/pappasam/toml-sort
-    rev: v0.23.1
+    rev: v0.24.2
     hooks:
       - id: toml-sort
         args: [--all, --in-place]
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.6.9
+    rev: v0.8.1
     hooks:
       - id: ruff
 
   - repo: https://github.com/pycqa/bandit
-    rev: 1.7.10
+    rev: 1.8.0
     hooks:
       - id: bandit
         args: [-c, pyproject.toml]
