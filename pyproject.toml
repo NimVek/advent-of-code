@@ -92,7 +92,7 @@ types-toml = "^0.10.8.20240310"
 optional = true
 
 [tool.poetry.group.extras.dependencies]
-browser-cookie3 = "^0.19.1"
+browser-cookie3 = "^0.20.1"
 
 [tool.poetry.scripts]
 aoc = 'aoc.main:main'
