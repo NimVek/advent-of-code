@@ -72,7 +72,7 @@ rich = "^13.9.4"
 termcolor = "^2.5.0"
 
 [tool.poetry.group.dev.dependencies]
-black = "^24.10.0"
+black = "^25.1.0"
 ipython = "^8.30.0"
 mypy = "^1.13.0"
 pre-commit = "3.8.0"
